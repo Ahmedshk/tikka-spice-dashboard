@@ -16,4 +16,5 @@ export const API_ENDPOINTS = {
     REFRESH: '/auth/refresh',
   },
   HEALTH: '/health',
+  LOCATIONS: '/locations',
 } as const;

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import authRoutes from './auth.routes.js';
+import locationRoutes from './location.routes.js';
 import { healthCheck } from '../controllers/health.controller.js';
 
 const router = Router();
@@ -10,8 +11,7 @@ router.get('/health', healthCheck);
 // Auth routes
 router.use('/auth', authRoutes);
 
-// Add more route modules here as they are created
-// router.use('/users', userRoutes);
-// router.use('/dashboard', dashboardRoutes);
+// Location management (auth + role required)
+router.use('/locations', locationRoutes);
 
 export default router;

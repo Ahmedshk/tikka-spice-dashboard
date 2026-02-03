@@ -1,0 +1,34 @@
+import { LocationModel, LocationDocument } from '../models/location.model.js';
+import { ILocation } from '../types/location.types.js';
+
+export class LocationRepository {
+  async create(data: Omit<ILocation, '_id' | 'createdAt' | 'updatedAt'>): Promise<LocationDocument> {
+    const location = new LocationModel(data);
+    return await location.save();
+  }
+
+  async findById(id: string): Promise<LocationDocument | null> {
+    return await LocationModel.findById(id);
+  }
+
+  async findAll(): Promise<LocationDocument[]> {
+    return await LocationModel.find().sort({ createdAt: -1 });
+  }
+
+  async findPaginated(skip: number, limit: number): Promise<LocationDocument[]> {
+    return await LocationModel.find().sort({ createdAt: -1 }).skip(skip).limit(limit).exec();
+  }
+
+  async count(): Promise<number> {
+    return await LocationModel.countDocuments();
+  }
+
+  async updateById(id: string, updateData: Partial<Omit<ILocation, '_id' | 'createdAt' | 'updatedAt'>>): Promise<LocationDocument | null> {
+    return await LocationModel.findByIdAndUpdate(id, updateData, { new: true });
+  }
+
+  async deleteById(id: string): Promise<boolean> {
+    const result = await LocationModel.findByIdAndDelete(id);
+    return result !== null;
+  }
+}

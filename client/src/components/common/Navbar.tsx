@@ -1,16 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
+import { setCurrentLocation, getStoredLocationId } from '../../store/slices/location.slice';
+import { locationService } from '../../services/location.service';
+import type { Location } from '../../types';
 import LocationIcon from '@assets/icons/location.svg?react';
 import NotificationIcon from '@assets/icons/notification.svg?react';
 import ArrowDownIcon from '@assets/icons/arrow_down.svg?react';
-
-// Placeholder locations data
-const placeholderLocations = [
-  '529 Adams Street Northeast, Albuquerque, NM 87108',
-  '123 Main Street, New York, NY 10001',
-  '456 Oak Avenue, Los Angeles, CA 90001',
-];
 
 const HamburgerIcon = ({ className }: { className?: string }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -31,13 +27,49 @@ const LogoutIcon = ({ className }: { className?: string }) => (
 );
 
 export const Navbar = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
+  const currentLocation = useSelector((state: RootState) => state.location.currentLocation);
+  const [locations, setLocations] = useState<Location[]>([]);
+  const [locationsLoading, setLocationsLoading] = useState(true);
   const [locationDropdownOpen, setLocationDropdownOpen] = useState(false);
   const [notificationDropdownOpen, setNotificationDropdownOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState(placeholderLocations[0]);
   const notificationCount = 2; // Placeholder count
+
+  // Fetch locations and sync current location from storage or first location
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const data = await locationService.getAll();
+        if (cancelled) return;
+        setLocations(data);
+        const storedId = getStoredLocationId();
+        const match = data.find((loc) => loc._id === storedId);
+        if (match) {
+          dispatch(setCurrentLocation(match));
+        } else if (data.length > 0 && !currentLocation) {
+          dispatch(setCurrentLocation(data[0]));
+        }
+      } catch {
+        if (!cancelled) setLocations([]);
+      } finally {
+        if (!cancelled) setLocationsLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [dispatch]);
+
+  // Keep current location in sync if it was removed from list (e.g. deleted elsewhere)
+  useEffect(() => {
+    if (!currentLocation || locations.length === 0) return;
+    const stillExists = locations.some((loc) => loc._id === currentLocation._id);
+    if (!stillExists) dispatch(setCurrentLocation(locations[0] ?? null));
+  }, [locations, currentLocation, dispatch]);
 
   const locationRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
@@ -102,12 +134,30 @@ export const Navbar = () => {
         <div className="relative min-w-0 flex-1 w-full lg:flex-initial lg:max-w-md xl:max-w-xl" ref={locationRef}>
           <button
             type="button"
-            onClick={() => setLocationDropdownOpen(!locationDropdownOpen)}
-            className="flex items-center gap-2 w-full px-3 sm:px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+            onClick={async () => {
+              if (!locationDropdownOpen) {
+                try {
+                  const data = await locationService.getAll();
+                  setLocations(data);
+                  const stillExists = currentLocation && data.some((loc) => loc._id === currentLocation._id);
+                  if (currentLocation && !stillExists && data.length > 0) dispatch(setCurrentLocation(data[0]));
+                } catch {
+                  // keep existing locations
+                }
+              }
+              setLocationDropdownOpen(!locationDropdownOpen);
+            }}
+            disabled={locationsLoading}
+            className="flex items-center gap-2 w-full px-3 sm:px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-70"
           >
             <LocationIcon className="w-4 h-4 flex-shrink-0" />
-            <span className="flex-1 min-w-0 text-sm text-text-primary whitespace-nowrap truncate text-left">
-              {selectedLocation}
+            <span className="flex-1 min-w-0 text-sm text-text-primary whitespace-nowrap truncate text-left" title={currentLocation ? `${currentLocation.storeName} – ${currentLocation.address}` : undefined}>
+              {(() => {
+                if (locationsLoading) return 'Loading...';
+                if (currentLocation) return currentLocation.storeName;
+                if (locations.length === 0) return 'No locations';
+                return 'Select location';
+              })()}
             </span>
             <ArrowDownIcon
               className={`w-3 h-3 flex-shrink-0 transition-transform ${locationDropdownOpen ? 'rotate-180' : ''}`}
@@ -115,21 +165,26 @@ export const Navbar = () => {
           </button>
 
           {locationDropdownOpen && (
-            <div className="absolute top-full left-0 mt-2 w-full min-w-[280px] max-w-[90vw] lg:w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-              <div className="py-2">
-                {placeholderLocations.map((location) => (
-                  <button
-                    key={location}
-                    type="button"
-                    onClick={() => {
-                      setSelectedLocation(location);
-                      setLocationDropdownOpen(false);
-                    }}
-                    className={`w-full text-left px-4 py-2 text-sm text-text-primary hover:bg-gray-50 transition-colors ${selectedLocation === location ? 'bg-button-secondary' : ''}`}
-                  >
-                    {location}
-                  </button>
-                ))}
+            <div className="absolute top-full left-0 mt-2 w-full min-w-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+              <div className="py-2 max-h-64 overflow-y-auto">
+                {locations.length === 0 ? (
+                  <p className="px-4 py-2 text-sm text-gray-500">No locations. Add one in Location Management.</p>
+                ) : (
+                  locations.map((loc) => (
+                    <button
+                      key={loc._id}
+                      type="button"
+                      onClick={() => {
+                        dispatch(setCurrentLocation(loc));
+                        setLocationDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-2 text-sm text-text-primary hover:bg-gray-50 transition-colors ${currentLocation?._id === loc._id ? 'bg-button-secondary' : ''}`}
+                    >
+                      <span className="font-medium block truncate">{loc.storeName}</span>
+                      <span className="text-xs text-gray-500 truncate block">{loc.address}</span>
+                    </button>
+                  ))
+                )}
               </div>
             </div>
           )}

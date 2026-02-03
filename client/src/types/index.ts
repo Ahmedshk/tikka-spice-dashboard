@@ -33,3 +33,12 @@ export interface ApiResponse<T = unknown> {
     message: string;
   }>;
 }
+
+export interface Location {
+  _id: string;
+  storeName: string;
+  address: string;
+  squareLocationId: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
