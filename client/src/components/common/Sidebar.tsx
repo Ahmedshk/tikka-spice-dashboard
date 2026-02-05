@@ -372,7 +372,7 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                       >
                         <div className="flex items-center">
                           <item.icon className="w-5 h-5 mr-3 flex-shrink-0" />
-                          <span className="text-xs md:text-sm 2xl:text-base text-text-primary font-medium">
+                          <span className="text-[10px] md:text-xs 2xl:text-sm text-text-primary font-medium">
                             {item.label}
                           </span>
                         </div>
@@ -399,7 +399,7 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                                 type="button"
                                 onClick={() => handleChildClick(child.path)}
                                 className={`
-                                  w-full px-4 py-2 cursor-pointer transition-all text-xs md:text-sm 2xl:text-base text-left border-0 rounded-xl
+                                  w-full px-4 py-2 cursor-pointer transition-all text-[10px] md:text-xs 2xl:text-sm text-left border-0 rounded-xl
                                   ${activePath === child.path
                                     ? 'bg-button-secondary text-text-primary font-bold'
                                     : 'bg-transparent hover:bg-gray-50 text-text-primary'
@@ -433,7 +433,7 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                         >
                           <item.icon className="w-5 h-5 mr-3 flex-shrink-0" />
                           <span
-                            className={`flex-1 text-xs md:text-sm 2xl:text-base ${activePath === itemPath
+                            className={`flex-1 text-[10px] md:text-xs 2xl:text-sm ${activePath === itemPath
                               ? 'text-quaternary font-bold'
                               : 'text-text-primary font-medium'
                               }`}
@@ -492,7 +492,7 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                   >
                     <div className="flex items-center">
                       <item.icon className="w-5 h-5 mr-3 flex-shrink-0" />
-                      <span className="flex-1 text-xs md:text-sm 2xl:text-base text-text-primary font-medium">
+                      <span className="flex-1 text-[10px] md:text-xs 2xl:text-sm text-text-primary font-medium">
                         {item.label}
                       </span>
                     </div>
@@ -516,7 +516,7 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                             type="button"
                             onClick={() => handleChildClick(child.path)}
                             className={`
-                              w-full px-4 py-2 cursor-pointer transition-all text-xs md:text-sm 2xl:text-base text-left border-0 rounded-xl
+                              w-full px-4 py-2 cursor-pointer transition-all text-[10px] md:text-xs 2xl:text-sm text-left border-0 rounded-xl
                               ${activePath === child.path
                                 ? 'bg-button-secondary text-text-primary font-bold'
                                 : 'bg-transparent hover:bg-gray-50 text-text-primary'
@@ -550,7 +550,7 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                     >
                       <item.icon className="w-5 h-5 mr-3 flex-shrink-0" />
                       <span
-                        className={`flex-1 text-xs md:text-sm 2xl:text-base ${activePath === itemPath
+                        className={`flex-1 text-[10px] md:text-xs 2xl:text-sm ${activePath === itemPath
                           ? 'text-quaternary font-bold'
                           : 'text-text-primary font-medium'
                           }`}

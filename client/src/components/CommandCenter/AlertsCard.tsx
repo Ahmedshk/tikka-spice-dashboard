@@ -77,7 +77,7 @@ export const AlertsCard = ({ categories = defaultCategories }: AlertsCardProps) 
           <div key={category.id} className="px-5 py-4">
             {/* Category title row: icon + title, Today + arrow on the right */}
             <div className="flex items-center justify-between gap-2 mb-2">
-              <h4 className="flex items-center gap-2 text-xs md:text-sm 2xl:text-base font-semibold text-text-primary">
+              <h4 className="flex items-center gap-2 text-xs md:text-sm 2xl:text-base font-medium text-text-secondary">
                 {category.icon}
                 {category.title}
               </h4>
