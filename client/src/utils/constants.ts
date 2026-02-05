@@ -1,20 +1,21 @@
 export enum UserRole {
-  OWNER = 'Owner',
-  DIRECTOR_OF_OPERATIONS = 'Director of Operations',
-  DISTRICT_MANAGER = 'District Manager',
-  GENERAL_MANAGER = 'General Manager',
-  SHIFT_SUPERVISOR = 'Shift Supervisor',
-  TEAM_MEMBER = 'Team Member',
+  OWNER = "Owner",
+  DIRECTOR_OF_OPERATIONS = "Director of Operations",
+  DISTRICT_MANAGER = "District Manager",
+  GENERAL_MANAGER = "General Manager",
+  SHIFT_SUPERVISOR = "Shift Supervisor",
+  TEAM_MEMBER = "Team Member",
 }
 
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api";
 
 export const API_ENDPOINTS = {
   AUTH: {
-    LOGIN: '/auth/login',
-    LOGOUT: '/auth/logout',
-    REFRESH: '/auth/refresh',
+    LOGIN: "/auth/login",
+    LOGOUT: "/auth/logout",
+    REFRESH: "/auth/refresh",
   },
-  HEALTH: '/health',
-  LOCATIONS: '/locations',
+  HEALTH: "/health",
+  LOCATIONS: "/locations",
+  GOALS: "/goals",
 } as const;

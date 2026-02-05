@@ -1,11 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { RootState, AppDispatch } from '../store/store';
-import { setUser, clearUser, setLoading } from '../store/slices/auth.slice';
-import api from '../services/api.service';
-import { ApiResponse, User } from '../types';
-import { API_ENDPOINTS } from '../utils/constants';
-import { AxiosError } from 'axios';
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { RootState, AppDispatch } from "../store/store";
+import { setUser, clearUser, setLoading } from "../store/slices/auth.slice";
+import api from "../services/api.service";
+import { ApiResponse, User } from "../types";
+import { API_ENDPOINTS } from "../utils/constants";
+import { AxiosError } from "axios";
 
 interface LoginCredentials {
   email: string;
@@ -15,7 +16,9 @@ interface LoginCredentials {
 export const useAuth = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { user, isAuthenticated, isLoading } = useSelector((state: RootState) => state.auth);
+  const { user, isAuthenticated, isLoading } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   const login = async (credentials: LoginCredentials): Promise<void> => {
     try {
@@ -27,25 +30,26 @@ export const useAuth = () => {
 
       if (response.data.success && response.data.data) {
         dispatch(setUser(response.data.data.user));
-        navigate('/dashboard');
+        toast.success("Login successful");
+        navigate("/dashboard");
       } else {
-        throw new Error(response.data.message || 'Login failed');
+        throw new Error(response.data.message || "Login failed");
       }
     } catch (error) {
       dispatch(setLoading(false));
-      
+
       // Extract error message from API response
       if (error instanceof AxiosError && error.response?.data) {
         const apiError = error.response.data as ApiResponse;
-        throw new Error(apiError.message || 'An error occurred during login');
+        throw new Error(apiError.message || "An error occurred during login");
       }
-      
+
       // Fallback for other errors
       if (error instanceof Error) {
         throw error;
       }
-      
-      throw new Error('An error occurred during login');
+
+      throw new Error("An error occurred during login");
     }
   };
 
@@ -54,10 +58,11 @@ export const useAuth = () => {
       await api.post(API_ENDPOINTS.AUTH.LOGOUT);
     } catch (error) {
       // Continue with logout even if API call fails
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
     } finally {
       dispatch(clearUser());
-      navigate('/login');
+      toast.success("Logged out successfully");
+      navigate("/login");
     }
   };
 

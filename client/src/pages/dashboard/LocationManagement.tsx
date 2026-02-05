@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Layout } from '../../components/common/Layout';
 import { Pagination } from '../../components/common/Pagination';
+import { Spinner } from '../../components/common/Spinner';
 import { LocationModal } from '../../components/modal/LocationModal';
 import { ConfirmDialog } from '../../components/modal/ConfirmDialog';
 import { locationService } from '../../services/location.service';
@@ -85,7 +86,7 @@ export const LocationManagement = () => {
         {/* Page header - outside white container */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
           <h2 className="flex items-center gap-2 text-base md:text-lg 2xl:text-xl font-semibold text-text-primary">
-            <AdminAndSettingsIcon className="w-6 h-6 text-text-primary" aria-hidden />
+            <AdminAndSettingsIcon className="w-4 h-4 md:w-5 md:h-5 2xl:w-6 2xl:h-6 text-text-primary" aria-hidden />
             Location Management
           </h2>
           <button
@@ -100,7 +101,12 @@ export const LocationManagement = () => {
 
         {/* White container - cards on mobile, table on md+ */}
         <div className="bg-card-background rounded-xl shadow border border-gray-200 overflow-hidden">
-          {loading && <div className="p-8 text-center text-text-primary">Loading...</div>}
+          {loading && (
+            <div className="p-8 flex flex-col items-center justify-center gap-3 text-text-primary">
+              <Spinner size="lg" />
+              <span>Loading...</span>
+            </div>
+          )}
           {!loading && locations.length === 0 && (
             <div className="p-8 text-center text-text-primary">No locations yet. Add one to get started.</div>
           )}

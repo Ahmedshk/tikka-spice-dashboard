@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import { Spinner } from '../common/Spinner';
 
 export interface ConfirmDialogProps {
   isOpen: boolean;
@@ -76,9 +77,16 @@ export const ConfirmDialog = ({
           type="button"
           onClick={handleConfirm}
           disabled={isLoading}
-          className={`px-4 py-3 rounded-xl text-sm font-medium transition-colors cursor-pointer disabled:opacity-60 ${confirmButtonClass}`}
+          className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-colors cursor-pointer disabled:opacity-60 ${confirmButtonClass}`}
         >
-          {isLoading ? 'Please wait...' : confirmLabel}
+          {isLoading ? (
+            <>
+              <Spinner size="sm" className="text-inherit" />
+              Please wait...
+            </>
+          ) : (
+            confirmLabel
+          )}
         </button>
       </div>
     </dialog>

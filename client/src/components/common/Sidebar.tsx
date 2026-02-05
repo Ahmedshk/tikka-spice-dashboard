@@ -232,7 +232,7 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
       setIsDragging(false);
       setDragOffset(0);
       setHasDragged(false);
-      
+
       // Reset button click prevention after a short delay
       setTimeout(() => {
         buttonClickRef.shouldPrevent = false;
@@ -268,9 +268,8 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
       <>
         {/* Mobile Sidebar */}
         <aside
-          className={`fixed left-0 top-0 h-full w-64 bg-card-background border-r border-gray-200 flex flex-col z-[110] lg:hidden ${
-            isDragging ? '' : 'transition-transform duration-300 ease-in-out'
-          }`}
+          className={`fixed left-0 top-0 h-full w-64 bg-card-background border-r border-gray-200 flex flex-col z-[110] lg:hidden ${isDragging ? '' : 'transition-transform duration-300 ease-in-out'
+            }`}
           style={{
             transform: (() => {
               if (isDragging) {
@@ -373,23 +372,23 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                       >
                         <div className="flex items-center">
                           <item.icon className="w-5 h-5 mr-3 flex-shrink-0" />
-                          <span className="text-[10px] md:text-xs 2xl:text-sm text-text-primary font-medium">
+                          <span className="text-xs md:text-sm 2xl:text-base text-text-primary font-medium">
                             {item.label}
                           </span>
                         </div>
                         {(() => {
                           const isExpanded = expandedItems.has(item.label);
                           return isExpanded ? (
-                            <ArrowDownIcon className="w-3 h-3" />
+                            <ArrowUpIcon className="w-3 h-3" />
                           ) : (
-                            <ArrowUpIcon className="w-3 h-3 rotate-180" />
+                            <ArrowDownIcon className="w-3 h-3" />
                           );
                         })()}
                       </button>
 
                       {/* Child Items */}
                       {expandedItems.has(item.label) && (
-                        <div className="pl-4 pr-2">
+                        <div className="pl-8 pr-2">
                           {item.children.map((child) => (
                             <RoleGuard
                               key={child.path}
@@ -400,7 +399,7 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                                 type="button"
                                 onClick={() => handleChildClick(child.path)}
                                 className={`
-                                  w-full px-4 py-2 cursor-pointer transition-all text-[10px] md:text-xs 2xl:text-sm text-left border-0 rounded-xl
+                                  w-full px-4 py-2 cursor-pointer transition-all text-xs md:text-sm 2xl:text-base text-left border-0 rounded-xl
                                   ${activePath === child.path
                                     ? 'bg-button-secondary text-text-primary font-bold'
                                     : 'bg-transparent hover:bg-gray-50 text-text-primary'
@@ -434,10 +433,10 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                         >
                           <item.icon className="w-5 h-5 mr-3 flex-shrink-0" />
                           <span
-                            className={`flex-1 text-[10px] md:text-xs 2xl:text-sm ${activePath === itemPath
+                            className={`flex-1 text-xs md:text-sm 2xl:text-base ${activePath === itemPath
                               ? 'text-quaternary font-bold'
                               : 'text-text-primary font-medium'
-                            }`}
+                              }`}
                           >
                             {item.label}
                           </span>
@@ -484,7 +483,7 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                     type="button"
                     onClick={() => handleParentClick(item)}
                     className={`
-                      w-full flex items-center justify-between px-4 py-3 cursor-pointer transition-all text-left border-0 rounded-xl
+                      w-full flex items-center justify-between px-4 py-3 my-4 cursor-pointer transition-all text-left border-0 rounded-xl
                       ${isParentActive(item.path)
                         ? 'bg-button-secondary'
                         : 'bg-transparent hover:bg-gray-50'
@@ -493,18 +492,20 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                   >
                     <div className="flex items-center">
                       <item.icon className="w-5 h-5 mr-3 flex-shrink-0" />
-                      <span className="flex-1 text-[10px] md:text-xs 2xl:text-sm text-text-primary font-medium">
+                      <span className="flex-1 text-xs md:text-sm 2xl:text-base text-text-primary font-medium">
                         {item.label}
                       </span>
                     </div>
-                    <ArrowUpIcon
-                      className={`w-3 h-3 transition-transform ${expandedItems.has(item.label) ? 'rotate-180' : ''}`}
-                    />
+                    {expandedItems.has(item.label) ? (
+                      <ArrowUpIcon className="w-3 h-3" />
+                    ) : (
+                      <ArrowDownIcon className="w-3 h-3" />
+                    )}
                   </button>
 
                   {/* Child Items */}
                   {expandedItems.has(item.label) && (
-                    <div className="pl-4 pr-2">
+                    <div className="pl-8 pr-2">
                       {item.children.map((child) => (
                         <RoleGuard
                           key={child.path}
@@ -515,7 +516,7 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                             type="button"
                             onClick={() => handleChildClick(child.path)}
                             className={`
-                              w-full px-4 py-2 cursor-pointer transition-all text-[10px] md:text-xs 2xl:text-sm text-left border-0 rounded-xl
+                              w-full px-4 py-2 cursor-pointer transition-all text-xs md:text-sm 2xl:text-base text-left border-0 rounded-xl
                               ${activePath === child.path
                                 ? 'bg-button-secondary text-text-primary font-bold'
                                 : 'bg-transparent hover:bg-gray-50 text-text-primary'
@@ -540,7 +541,7 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                       type="button"
                       onClick={() => handleChildClick(itemPath)}
                       className={`
-                        w-full flex items-center px-4 py-3 cursor-pointer transition-all text-left border-0 rounded-xl
+                        w-full flex items-center px-4 py-3 my-4 cursor-pointer transition-all text-left border-0 rounded-xl
                         ${activePath === itemPath
                           ? 'bg-button-secondary'
                           : 'bg-transparent hover:bg-gray-50'
@@ -549,10 +550,10 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                     >
                       <item.icon className="w-5 h-5 mr-3 flex-shrink-0" />
                       <span
-                        className={`flex-1 text-[10px] md:text-xs 2xl:text-sm ${activePath === itemPath
+                        className={`flex-1 text-xs md:text-sm 2xl:text-base ${activePath === itemPath
                           ? 'text-quaternary font-bold'
                           : 'text-text-primary font-medium'
-                        }`}
+                          }`}
                       >
                         {item.label}
                       </span>

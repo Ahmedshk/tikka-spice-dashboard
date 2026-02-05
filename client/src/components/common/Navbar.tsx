@@ -3,7 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import { setCurrentLocation, getStoredLocationId } from '../../store/slices/location.slice';
 import { locationService } from '../../services/location.service';
+import { useAuth } from '../../hooks/useAuth';
 import type { Location } from '../../types';
+import { Spinner } from './Spinner';
 import LocationIcon from '@assets/icons/location.svg?react';
 import NotificationIcon from '@assets/icons/notification.svg?react';
 import ArrowDownIcon from '@assets/icons/arrow_down.svg?react';
@@ -28,6 +30,7 @@ const LogoutIcon = ({ className }: { className?: string }) => (
 
 export const Navbar = () => {
   const dispatch = useDispatch();
+  const { logout } = useAuth();
   const user = useSelector((state: RootState) => state.auth.user);
   const currentLocation = useSelector((state: RootState) => state.location.currentLocation);
   const [locations, setLocations] = useState<Location[]>([]);
@@ -51,7 +54,7 @@ export const Navbar = () => {
         if (match) {
           dispatch(setCurrentLocation(match));
         } else if (data.length > 0 && !currentLocation) {
-          dispatch(setCurrentLocation(data[0]));
+          dispatch(setCurrentLocation(data[0] ?? null));
         }
       } catch {
         if (!cancelled) setLocations([]);
@@ -140,7 +143,7 @@ export const Navbar = () => {
                   const data = await locationService.getAll();
                   setLocations(data);
                   const stillExists = currentLocation && data.some((loc) => loc._id === currentLocation._id);
-                  if (currentLocation && !stillExists && data.length > 0) dispatch(setCurrentLocation(data[0]));
+                  if (currentLocation && !stillExists && data.length > 0) dispatch(setCurrentLocation(data[0] ?? null));
                 } catch {
                   // keep existing locations
                 }
@@ -150,8 +153,9 @@ export const Navbar = () => {
             disabled={locationsLoading}
             className="flex items-center gap-2 w-full px-3 sm:px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-70"
           >
-            <LocationIcon className="w-4 h-4 flex-shrink-0" />
-            <span className="flex-1 min-w-0 text-sm text-text-primary whitespace-nowrap truncate text-left" title={currentLocation ? `${currentLocation.storeName} – ${currentLocation.address}` : undefined}>
+            <LocationIcon className="w-4 h-4 md:w-4.5 md:h-4.5 2xl:w-5 2xl:h-5 flex-shrink-0" />
+            <span className="flex-1 min-w-0 flex items-center gap-2 text-xs md:text-sm 2xl:text-base text-text-primary whitespace-nowrap truncate text-left" title={currentLocation ? `${currentLocation.storeName} – ${currentLocation.address}` : undefined}>
+              {locationsLoading && <Spinner size="sm" className="flex-shrink-0 text-button-primary" />}
               {(() => {
                 if (locationsLoading) return 'Loading...';
                 if (currentLocation) return currentLocation.storeName;
@@ -159,9 +163,7 @@ export const Navbar = () => {
                 return 'Select location';
               })()}
             </span>
-            <ArrowDownIcon
-              className={`w-3 h-3 flex-shrink-0 transition-transform ${locationDropdownOpen ? 'rotate-180' : ''}`}
-            />
+            <ArrowDownIcon className="w-3 h-3 flex-shrink-0" />
           </button>
 
           {locationDropdownOpen && (
@@ -178,10 +180,10 @@ export const Navbar = () => {
                         dispatch(setCurrentLocation(loc));
                         setLocationDropdownOpen(false);
                       }}
-                      className={`w-full text-left px-4 py-2 text-sm text-text-primary hover:bg-gray-50 transition-colors ${currentLocation?._id === loc._id ? 'bg-button-secondary' : ''}`}
+                      className={`w-full text-left px-4 py-2 text-xs md:text-sm 2xl:text-base text-text-primary hover:bg-gray-50 transition-colors ${currentLocation?._id === loc._id ? 'bg-button-secondary' : ''}`}
                     >
                       <span className="font-medium block truncate">{loc.storeName}</span>
-                      <span className="text-xs text-gray-500 truncate block">{loc.address}</span>
+                      <span className="text-[10px] md:text-xs 2xl:text-sm text-gray-500 truncate block">{loc.address}</span>
                     </button>
                   ))
                 )}
@@ -228,15 +230,24 @@ export const Navbar = () => {
                 <div className="text-sm font-medium text-text-primary">{getUserDisplayName()}</div>
                 <div className="text-xs text-gray-500">({getUserRole()})</div>
               </div>
-              <ArrowDownIcon className={`w-3 h-3 transition-transform ${userDropdownOpen ? 'rotate-180' : ''}`} />
+              <ArrowDownIcon className="w-3 h-3" />
             </button>
             {userDropdownOpen && (
               <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                 <div className="py-2">
-                  <button type="button" className="w-full text-left px-4 py-2 text-sm text-text-primary hover:bg-gray-50 transition-colors">Profile</button>
-                  <button type="button" className="w-full text-left px-4 py-2 text-sm text-text-primary hover:bg-gray-50 transition-colors">Settings</button>
+                  <button type="button" className="w-full text-left px-4 py-2 text-sm text-text-primary hover:bg-gray-50 transition-colors cursor-pointer">Profile</button>
+                  <button type="button" className="w-full text-left px-4 py-2 text-sm text-text-primary hover:bg-gray-50 transition-colors cursor-pointer">Settings</button>
                   <div className="border-t border-gray-200 my-1" />
-                  <button type="button" className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 transition-colors">Logout</button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUserDropdownOpen(false);
+                      void logout();
+                    }}
+                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 transition-colors cursor-pointer"
+                  >
+                    Logout
+                  </button>
                 </div>
               </div>
             )}
@@ -315,7 +326,10 @@ export const Navbar = () => {
           </button>
           <button
             type="button"
-            onClick={closeMobileMenu}
+            onClick={() => {
+              closeMobileMenu();
+              void logout();
+            }}
             className="w-full max-w-sm flex items-center justify-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium text-text-primary hover:bg-gray-50 transition-colors cursor-pointer"
           >
             <LogoutIcon className="w-5 h-5 flex-shrink-0 text-text-primary" />

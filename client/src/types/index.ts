@@ -1,10 +1,10 @@
 export enum UserRole {
-  OWNER = 'Owner',
-  DIRECTOR_OF_OPERATIONS = 'Director of Operations',
-  DISTRICT_MANAGER = 'District Manager',
-  GENERAL_MANAGER = 'General Manager',
-  SHIFT_SUPERVISOR = 'Shift Supervisor',
-  TEAM_MEMBER = 'Team Member',
+  OWNER = "Owner",
+  DIRECTOR_OF_OPERATIONS = "Director of Operations",
+  DISTRICT_MANAGER = "District Manager",
+  GENERAL_MANAGER = "General Manager",
+  SHIFT_SUPERVISOR = "Shift Supervisor",
+  TEAM_MEMBER = "Team Member",
 }
 
 export interface User {
@@ -39,6 +39,18 @@ export interface Location {
   storeName: string;
   address: string;
   squareLocationId: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Goal {
+  _id?: string;
+  locationId: string;
+  salesGoal: number;
+  laborCostGoal: number;
+  hoursGoal: number;
+  spmhGoal: number;
+  foodCostGoal: number;
   createdAt?: string;
   updatedAt?: string;
 }

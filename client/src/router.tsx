@@ -12,6 +12,7 @@ import { GoalSetting } from './pages/dashboard/GoalSetting';
 import { LocationManagement } from './pages/dashboard/LocationManagement';
 import { ErrorPage } from './pages/ErrorPage';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
+import { RootRedirect } from './components/auth/RootRedirect';
 import { useSelector } from 'react-redux';
 import { RootState } from './store/store';
 import { ReactNode } from 'react';
@@ -144,7 +145,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: <Navigate to="/dashboard/command-center" replace />,
+    element: <RootRedirect />,
     errorElement: <ErrorPage />,
   },
 ]);

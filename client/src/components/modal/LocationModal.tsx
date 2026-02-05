@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Spinner } from '../common/Spinner';
 import { locationService } from '../../services/location.service';
 import type { Location } from '../../types';
 
@@ -51,6 +52,8 @@ export const LocationModal = ({ isOpen, onClose, onSaved, editLocation }: Locati
   };
 
   if (!isOpen) return null;
+
+  const submitButtonLabel = isEdit ? 'Update' : 'Add Location';
 
   return (
     <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
@@ -118,12 +121,16 @@ export const LocationModal = ({ isOpen, onClose, onSaved, editLocation }: Locati
             <button
               type="submit"
               disabled={submitting}
-              className="flex-1 px-4 py-3 bg-button-primary text-white rounded-xl text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-60 cursor-pointer"
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-button-primary text-white rounded-xl text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-60 cursor-pointer"
             >
-              {(() => {
-                if (submitting) return 'Saving...';
-                return isEdit ? 'Update' : 'Add Location';
-              })()}
+              {submitting ? (
+                <>
+                  <Spinner size="sm" className="h-4 w-4 text-white" />
+                  {isEdit ? 'Updating...' : 'Saving...'}
+                </>
+              ) : (
+                submitButtonLabel
+              )}
             </button>
           </div>
         </form>
