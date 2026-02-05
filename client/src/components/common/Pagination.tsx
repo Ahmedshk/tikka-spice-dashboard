@@ -48,7 +48,7 @@ export const Pagination = ({
 
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-4 py-3 sm:px-6 border-t border-gray-200 bg-card-background">
-      <p className="text-xs sm:text-sm text-text-primary order-2 sm:order-1">
+      <p className="text-xs sm:text-sm text-primary order-2 sm:order-1">
         Showing <span className="font-medium">{startItem}</span>–<span className="font-medium">{endItem}</span> of{' '}
         <span className="font-medium">{totalItems}</span>
       </p>
@@ -57,7 +57,7 @@ export const Pagination = ({
           type="button"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage <= 1}
-          className="min-w-[2.25rem] h-9 px-2 sm:px-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-text-primary hover:bg-button-secondary transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
+          className="min-w-[2.25rem] h-9 px-2 sm:px-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-primary hover:bg-button-secondary transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
           aria-label="Previous page"
         >
           Previous
@@ -65,7 +65,7 @@ export const Pagination = ({
         <div className="flex items-center gap-1">
           {pageNumbers.map((page, i) =>
             page === 'ellipsis' ? (
-              <span key={i < pageNumbers.length / 2 ? 'ellipsis-start' : 'ellipsis-end'} className="px-2 text-text-primary" aria-hidden>
+              <span key={i < pageNumbers.length / 2 ? 'ellipsis-start' : 'ellipsis-end'} className="px-2 text-primary" aria-hidden>
                 …
               </span>
             ) : (
@@ -74,11 +74,10 @@ export const Pagination = ({
                 type="button"
                 onClick={() => onPageChange(page)}
                 disabled={page === currentPage}
-                className={`min-w-[2.25rem] h-9 px-2 rounded-xl text-sm font-medium transition-colors cursor-pointer ${
-                  page === currentPage
+                className={`min-w-[2.25rem] h-9 px-2 rounded-xl text-sm font-medium transition-colors cursor-pointer ${page === currentPage
                     ? 'bg-button-primary text-white cursor-default'
-                    : 'border border-gray-200 bg-white text-text-primary hover:bg-button-secondary'
-                }`}
+                    : 'border border-gray-200 bg-white text-primary hover:bg-button-secondary'
+                  }`}
                 aria-label={page === currentPage ? `Page ${page} (current)` : `Page ${page}`}
                 aria-current={page === currentPage ? 'page' : undefined}
               >
@@ -91,7 +90,7 @@ export const Pagination = ({
           type="button"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage >= totalPages}
-          className="min-w-[2.25rem] h-9 px-2 sm:px-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-text-primary hover:bg-button-secondary transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
+          className="min-w-[2.25rem] h-9 px-2 sm:px-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-primary hover:bg-button-secondary transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
           aria-label="Next page"
         >
           Next

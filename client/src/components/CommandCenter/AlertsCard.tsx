@@ -21,7 +21,7 @@ const defaultCategories: AlertCategory[] = [
   {
     id: 'financial',
     title: 'Financial & labor',
-    icon: <FinancialAndLaborIcon className="w-4 h-4 md:w-4.5 md:h-4.5 2xl:w-5 2xl:h-5 text-text-primary flex-shrink-0" aria-hidden />,
+    icon: <FinancialAndLaborIcon className="w-4 h-4 md:w-4.5 md:h-4.5 2xl:w-5 2xl:h-5 text-primary flex-shrink-0" aria-hidden />,
     alerts: [
       { text: 'High overtime risk pending Clock-Outs', severity: 'critical' },
       { text: 'Sales Slump', severity: 'warning' },
@@ -30,7 +30,7 @@ const defaultCategories: AlertCategory[] = [
   {
     id: 'inventory',
     title: 'Inventory & Supply chain',
-    icon: <InventoryAndSupplyChainIcon className="w-4 h-4 md:w-4.5 md:h-4.5 2xl:w-5 2xl:h-5 text-text-primary flex-shrink-0" aria-hidden />,
+    icon: <InventoryAndSupplyChainIcon className="w-4 h-4 md:w-4.5 md:h-4.5 2xl:w-5 2xl:h-5 text-primary flex-shrink-0" aria-hidden />,
     alerts: [
       { text: 'Delivery Overdue', severity: 'critical' },
       { text: 'Missing 5 lbs of Cheese', severity: 'warning' },
@@ -40,7 +40,7 @@ const defaultCategories: AlertCategory[] = [
   {
     id: 'reputation',
     title: 'Reputation & HR',
-    icon: <ReputationAndHrIcon className="w-4 h-4 md:w-4.5 md:h-4.5 2xl:w-5 2xl:h-5 text-text-primary flex-shrink-0" aria-hidden />,
+    icon: <ReputationAndHrIcon className="w-4 h-4 md:w-4.5 md:h-4.5 2xl:w-5 2xl:h-5 text-primary flex-shrink-0" aria-hidden />,
     alerts: [
       { text: '2 Negative Reviews', severity: 'warning' },
       { text: '3 Post Due Employee Reviews', severity: 'critical' },
@@ -58,7 +58,7 @@ export const AlertsCard = ({ categories = defaultCategories }: AlertsCardProps) 
     <div className="bg-card-background rounded-xl shadow border border-gray-200 overflow-hidden">
       {/* Header */}
       <div className="p-5 pb-4 flex items-center justify-between flex-wrap gap-2 border-b border-gray-200">
-        <h3 className="text-sm md:text-base 2xl:text-lg font-semibold text-text-secondary flex items-center gap-2">
+        <h3 className="text-sm md:text-base 2xl:text-lg font-semibold text-secondary flex items-center gap-2">
           <AlertsIcon className="w-5 h-5 md:w-6 md:h-6 2xl:w-7 2xl:h-7 flex-shrink-0" aria-hidden />
           Alerts
         </h3>
@@ -67,7 +67,7 @@ export const AlertsCard = ({ categories = defaultCategories }: AlertsCardProps) 
           className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
           aria-label="More options"
         >
-          <span className="text-text-primary text-lg leading-none">⋯</span>
+          <span className="text-primary text-lg leading-none">⋯</span>
         </button>
       </div>
 
@@ -77,7 +77,7 @@ export const AlertsCard = ({ categories = defaultCategories }: AlertsCardProps) 
           <div key={category.id} className="px-5 py-4">
             {/* Category title row: icon + title, Today + arrow on the right */}
             <div className="flex items-center justify-between gap-2 mb-2">
-              <h4 className="flex items-center gap-2 text-xs md:text-sm 2xl:text-base font-medium text-text-secondary">
+              <h4 className="flex items-center gap-2 text-xs md:text-sm 2xl:text-base font-medium text-secondary">
                 {category.icon}
                 {category.title}
               </h4>
@@ -87,7 +87,7 @@ export const AlertsCard = ({ categories = defaultCategories }: AlertsCardProps) 
               {category.alerts.map((alert) => (
                 <span
                   key={`${category.id}-${alert.text}`}
-                  className="flex items-center gap-1.5 text-[10px] md:text-xs 2xl:text-sm text-text-primary"
+                  className="flex items-center gap-1.5 text-[10px] md:text-xs 2xl:text-sm text-primary"
                 >
                   <span
                     className={`w-1 h-1 md:w-1.5 md:h-1.5 2xl:w-2 2xl:h-2 rounded-full flex-shrink-0 ${alert.severity === 'critical' ? 'bg-[#F04B5B]' : 'bg-[#FBC52A]'

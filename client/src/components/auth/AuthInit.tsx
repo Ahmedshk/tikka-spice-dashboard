@@ -50,7 +50,7 @@ export const AuthInit = ({ children }: AuthInitProps) => {
       <div className="min-h-screen flex items-center justify-center bg-dashboard-background">
         <div className="flex flex-col items-center gap-4">
           <Spinner size="lg" className="text-button-primary" />
-          <p className="text-sm text-text-primary">Loading...</p>
+          <p className="text-sm text-primary">Loading...</p>
         </div>
       </div>
     );

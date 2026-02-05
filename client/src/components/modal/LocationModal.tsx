@@ -59,7 +59,7 @@ export const LocationModal = ({ isOpen, onClose, onSaved, editLocation }: Locati
     <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} aria-hidden />
       <div className="relative w-full max-w-md bg-card-background rounded-xl shadow-lg border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-text-secondary mb-4">
+        <h3 className="text-lg font-semibold text-secondary mb-4">
           {isEdit ? 'Edit Location' : 'Add Location'}
         </h3>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -69,7 +69,7 @@ export const LocationModal = ({ isOpen, onClose, onSaved, editLocation }: Locati
             </p>
           )}
           <div>
-            <label htmlFor="storeName" className="block text-sm font-medium text-text-primary mb-1">
+            <label htmlFor="storeName" className="block text-sm font-medium text-primary mb-1">
               Store name
             </label>
             <input
@@ -83,7 +83,7 @@ export const LocationModal = ({ isOpen, onClose, onSaved, editLocation }: Locati
             />
           </div>
           <div>
-            <label htmlFor="address" className="block text-sm font-medium text-text-primary mb-1">
+            <label htmlFor="address" className="block text-sm font-medium text-primary mb-1">
               Address
             </label>
             <input
@@ -97,7 +97,7 @@ export const LocationModal = ({ isOpen, onClose, onSaved, editLocation }: Locati
             />
           </div>
           <div>
-            <label htmlFor="squareLocationId" className="block text-sm font-medium text-text-primary mb-1">
+            <label htmlFor="squareLocationId" className="block text-sm font-medium text-primary mb-1">
               Square location ID
             </label>
             <input
@@ -114,7 +114,7 @@ export const LocationModal = ({ isOpen, onClose, onSaved, editLocation }: Locati
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm font-medium text-text-primary hover:bg-gray-50 transition-colors cursor-pointer"
+              className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm font-medium text-primary hover:bg-gray-50 transition-colors cursor-pointer"
             >
               Cancel
             </button>

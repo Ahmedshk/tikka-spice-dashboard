@@ -73,7 +73,7 @@ export const PercentageGauge = ({
         value={value}
         style={{ width: '100%' }}
       />
-      <p className="text-2xl font-bold text-text-secondary mt-2">{formatValue(value)}</p>
+      <p className="text-2xl font-bold text-secondary mt-2">{formatValue(value)}</p>
       {subtitle && <p className="text-xs text-gray-500 mt-0.5">{subtitle}</p>}
       {overTarget != null && overTarget !== 0 && (
         <>
@@ -81,14 +81,14 @@ export const PercentageGauge = ({
           <p
             className={`flex items-center justify-center gap-1 text-sm font-medium ${overTarget > 0 ? 'text-red-600' : 'text-green-600'}`}
           >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-            {overTarget > 0 ? (
-              <path d="M7 14l5-5 5 5H7z" />
-            ) : (
-              <path d="M7 10l5 5 5-5H7z" />
-            )}
-          </svg>
-          {overTarget > 0 ? `${overTarget.toFixed(1)}% Over Target` : `${Math.abs(overTarget).toFixed(1)}% Under Target`}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+              {overTarget > 0 ? (
+                <path d="M7 14l5-5 5 5H7z" />
+              ) : (
+                <path d="M7 10l5 5 5-5H7z" />
+              )}
+            </svg>
+            {overTarget > 0 ? `${overTarget.toFixed(1)}% Over Target` : `${Math.abs(overTarget).toFixed(1)}% Under Target`}
           </p>
         </>
       )}

@@ -372,7 +372,7 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                       >
                         <div className="flex items-center">
                           <item.icon className="w-5 h-5 mr-3 flex-shrink-0" />
-                          <span className="text-[10px] md:text-xs 2xl:text-sm text-text-primary font-medium">
+                          <span className="text-[10px] md:text-xs 2xl:text-sm text-primary font-medium">
                             {item.label}
                           </span>
                         </div>
@@ -401,8 +401,8 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                                 className={`
                                   w-full px-4 py-2 cursor-pointer transition-all text-[10px] md:text-xs 2xl:text-sm text-left border-0 rounded-xl
                                   ${activePath === child.path
-                                    ? 'bg-button-secondary text-text-primary font-bold'
-                                    : 'bg-transparent hover:bg-gray-50 text-text-primary'
+                                    ? 'bg-button-secondary text-primary font-bold'
+                                    : 'bg-transparent hover:bg-gray-50 text-primary'
                                   }
                                 `}
                               >
@@ -434,8 +434,8 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                           <item.icon className="w-5 h-5 mr-3 flex-shrink-0" />
                           <span
                             className={`flex-1 text-[10px] md:text-xs 2xl:text-sm ${activePath === itemPath
-                              ? 'text-quaternary font-bold'
-                              : 'text-text-primary font-medium'
+                              ? 'quaternary font-bold'
+                              : 'text-primary font-medium'
                               }`}
                           >
                             {item.label}
@@ -453,16 +453,35 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
     );
   }
 
-  // Desktop Sidebar
+  // Desktop Sidebar (collapsible)
+  const isDesktopExpanded = isOpen;
+
+  const handleDesktopParentClick = (item: (typeof navigationConfig)[0]) => {
+    if (item.children && item.children.length > 0) {
+      if (!isDesktopExpanded) {
+        onToggle(); // Expand sidebar so user can pick a child
+      }
+      onToggleExpand(item.label);
+    }
+  };
+
   return (
-    <aside className="hidden lg:flex w-64 bg-card-background border-r border-gray-200 flex-col h-screen">
-      {/* Logo */}
-      <div className="px-6 py-4 border-b border-gray-200">
-        <img src={logoBlack} alt="Tikka Spice Logo" className="w-full" />
+    <aside
+      className={`hidden lg:flex bg-card-background border-r border-gray-200 flex-col h-screen shrink-0 transition-[width] duration-200 ease-in-out ${
+        isDesktopExpanded ? 'w-64' : 'w-16'
+      }`}
+    >
+      {/* Logo - same height as navbar (72px) so the border aligns with navbar bottom */}
+      <div className={`h-[72px] min-h-[72px] border-b border-gray-200 flex items-center shrink-0 ${isDesktopExpanded ? 'px-6' : 'px-3 justify-center'}`}>
+        {isDesktopExpanded ? (
+          <img src={logoBlack} alt="Tikka Spice Logo" className="w-full max-w-[180px]" />
+        ) : (
+          <img src={logoBlack} alt="Tikka Spice" className="h-8 w-8 object-contain" />
+        )}
       </div>
 
       {/* Navigation Items */}
-      <nav className="flex-1 overflow-y-auto py-4 px-2">
+      <nav className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-2">
         {navigationConfig.map((item, index) => (
           <RoleGuard
             key={item.label}
@@ -470,41 +489,43 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
             fallback={null}
           >
             <div>
-              {/* Separator before Admin & Settings */}
               {item.hasSeparator && index > 0 && (
                 <div className="border-t border-gray-200 my-2" />
               )}
 
-              {/* Menu Item */}
               {item.children ? (
-                // Expandable parent item
                 <>
                   <button
                     type="button"
-                    onClick={() => handleParentClick(item)}
+                    onClick={() => handleDesktopParentClick(item)}
+                    title={isDesktopExpanded ? undefined : item.label}
                     className={`
-                      w-full flex items-center justify-between px-4 py-3 my-4 cursor-pointer transition-all text-left border-0 rounded-xl
+                      w-full flex items-center rounded-xl border-0 cursor-pointer transition-all text-left
+                      ${isDesktopExpanded ? 'justify-between px-4 py-3 my-4' : 'justify-center p-3 my-1'}
                       ${isParentActive(item.path)
                         ? 'bg-button-secondary'
                         : 'bg-transparent hover:bg-gray-50'
                       }
                     `}
                   >
-                    <div className="flex items-center">
-                      <item.icon className="w-5 h-5 mr-3 flex-shrink-0" />
-                      <span className="flex-1 text-[10px] md:text-xs 2xl:text-sm text-text-primary font-medium">
-                        {item.label}
-                      </span>
+                    <div className="flex items-center min-w-0">
+                      <item.icon className="w-5 h-5 flex-shrink-0" />
+                      {isDesktopExpanded && (
+                        <>
+                          <span className="ml-3 flex-1 text-[10px] md:text-xs 2xl:text-sm text-primary font-medium truncate">
+                            {item.label}
+                          </span>
+                          {expandedItems.has(item.label) ? (
+                            <ArrowUpIcon className="w-3 h-3 flex-shrink-0" />
+                          ) : (
+                            <ArrowDownIcon className="w-3 h-3 flex-shrink-0" />
+                          )}
+                        </>
+                      )}
                     </div>
-                    {expandedItems.has(item.label) ? (
-                      <ArrowUpIcon className="w-3 h-3" />
-                    ) : (
-                      <ArrowDownIcon className="w-3 h-3" />
-                    )}
                   </button>
 
-                  {/* Child Items */}
-                  {expandedItems.has(item.label) && (
+                  {isDesktopExpanded && expandedItems.has(item.label) && (
                     <div className="pl-8 pr-2">
                       {item.children.map((child) => (
                         <RoleGuard
@@ -518,8 +539,8 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                             className={`
                               w-full px-4 py-2 cursor-pointer transition-all text-[10px] md:text-xs 2xl:text-sm text-left border-0 rounded-xl
                               ${activePath === child.path
-                                ? 'bg-button-secondary text-text-primary font-bold'
-                                : 'bg-transparent hover:bg-gray-50 text-text-primary'
+                                ? 'bg-button-secondary text-primary font-bold'
+                                : 'bg-transparent hover:bg-gray-50 text-primary'
                               }
                             `}
                           >
@@ -531,7 +552,6 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                   )}
                 </>
               ) : (
-                // Direct navigation item
                 (() => {
                   const itemPath = item.path;
                   if (!itemPath) return null;
@@ -540,23 +560,26 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                     <button
                       type="button"
                       onClick={() => handleChildClick(itemPath)}
+                      title={isDesktopExpanded ? undefined : item.label}
                       className={`
-                        w-full flex items-center px-4 py-3 my-4 cursor-pointer transition-all text-left border-0 rounded-xl
+                        w-full flex items-center rounded-xl border-0 cursor-pointer transition-all text-left
+                        ${isDesktopExpanded ? 'px-4 py-3 my-4' : 'justify-center p-3 my-1'}
                         ${activePath === itemPath
                           ? 'bg-button-secondary'
                           : 'bg-transparent hover:bg-gray-50'
                         }
                       `}
                     >
-                      <item.icon className="w-5 h-5 mr-3 flex-shrink-0" />
-                      <span
-                        className={`flex-1 text-[10px] md:text-xs 2xl:text-sm ${activePath === itemPath
-                          ? 'text-quaternary font-bold'
-                          : 'text-text-primary font-medium'
+                      <item.icon className="w-5 h-5 flex-shrink-0" />
+                      {isDesktopExpanded && (
+                        <span
+                          className={`ml-3 flex-1 text-[10px] md:text-xs 2xl:text-sm truncate ${
+                            activePath === itemPath ? 'font-bold text-quaternary' : 'text-primary font-medium'
                           }`}
-                      >
-                        {item.label}
-                      </span>
+                        >
+                          {item.label}
+                        </span>
+                      )}
                     </button>
                   );
                 })()
@@ -565,6 +588,26 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
           </RoleGuard>
         ))}
       </nav>
+
+      {/* Collapse / Expand toggle */}
+      <div className="shrink-0 border-t border-gray-200 p-2">
+        <button
+          type="button"
+          onClick={onToggle}
+          className="w-full flex items-center justify-center p-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer text-primary"
+          aria-label={isDesktopExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
+        >
+          {isDesktopExpanded ? (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+            </svg>
+          ) : (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+            </svg>
+          )}
+        </button>
+      </div>
     </aside>
   );
 };

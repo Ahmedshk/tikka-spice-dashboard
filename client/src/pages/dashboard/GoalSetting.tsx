@@ -114,8 +114,8 @@ export const GoalSetting = () => {
       <div className="p-6">
         {/* Page header - outside white container */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-          <h2 className="flex items-center gap-2 text-base md:text-lg 2xl:text-xl font-semibold text-text-primary">
-            <AdminAndSettingsIcon className="w-4 h-4 md:w-5 md:h-5 2xl:w-6 2xl:h-6 text-text-primary" aria-hidden />
+          <h2 className="flex items-center gap-2 text-base md:text-lg 2xl:text-xl font-semibold text-primary">
+            <AdminAndSettingsIcon className="w-4 h-4 md:w-5 md:h-5 2xl:w-6 2xl:h-6 text-primary" aria-hidden />
             Goal Setting
           </h2>
         </div>
@@ -123,25 +123,25 @@ export const GoalSetting = () => {
         {/* White container */}
         <div className="bg-card-background rounded-xl overflow-hidden">
           {/* Gray top bar */}
-          <div className="h-4 rounded-t-xl bg-text-primary" aria-hidden />
+          <div className="h-4 rounded-t-xl bg-primary" aria-hidden />
           <div className="p-6">
             {(() => {
               if (!currentLocation?._id) {
                 return (
-                  <p className="text-text-primary">
+                  <p className="text-primary">
                     Select a location from the navbar to view and edit goals. Each location has its own goals.
                   </p>
                 );
               }
               if (loading) {
-                return <p className="text-text-primary">Loading goals...</p>;
+                return <p className="text-primary">Loading goals...</p>;
               }
               return (
                 <form onSubmit={handleSubmit} className="max-w-2xl">
-                  <p className="mb-8 text-text-primary">
-                    <span className="font-semibold text-text-secondary text-sm md:text-base 2xl:text-lg ">{currentLocation.storeName}</span>
+                  <p className="mb-8 text-primary">
+                    <span className="font-semibold text-secondary text-sm md:text-base 2xl:text-lg ">{currentLocation.storeName}</span>
                     {currentLocation.address && (
-                      <span className="block text-text-primary mt-0.5 truncate text-xs md:text-sm 2xl:text-base " title={currentLocation.address}>
+                      <span className="block text-primary mt-0.5 truncate text-xs md:text-sm 2xl:text-base " title={currentLocation.address}>
                         {currentLocation.address}
                       </span>
                     )}
@@ -156,7 +156,7 @@ export const GoalSetting = () => {
                       const step = key === 'laborCostGoal' || key === 'foodCostGoal' ? 0.1 : 1;
                       return (
                         <div key={key} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                          <label htmlFor={key} className="text-sm md:text-base 2xl:text-lg font-medium text-text-primary sm:w-48 shrink-0">
+                          <label htmlFor={key} className="text-sm md:text-base 2xl:text-lg font-medium text-primary sm:w-48 shrink-0">
                             {label}
                           </label>
                           <input
@@ -166,7 +166,7 @@ export const GoalSetting = () => {
                             step={step}
                             value={form[key] === 0 ? '' : form[key]}
                             onChange={(e) => handleChange(key, e.target.value)}
-                            className="flex-1 max-w-md px-4 py-3 bg-[#F9F9F9] border border-[#DBDBDB] rounded-xl text-sm md:text-base 2xl:text-lg text-text-primary"
+                            className="flex-1 max-w-md px-4 py-3 bg-[#F9F9F9] border border-[#DBDBDB] rounded-xl text-sm md:text-base 2xl:text-lg text-primary"
                           />
                         </div>
                       );
@@ -176,7 +176,7 @@ export const GoalSetting = () => {
                     <button
                       type="button"
                       onClick={handleReset}
-                      className="flex-1 min-w-0 flex items-center justify-center px-4 py-3 border border-gray-200 rounded-xl text-sm md:text-base 2xl:text-lg font-medium text-text-primary hover:bg-gray-50 transition-colors cursor-pointer"
+                      className="flex-1 min-w-0 flex items-center justify-center px-4 py-3 border border-gray-200 rounded-xl text-sm md:text-base 2xl:text-lg font-medium text-primary hover:bg-gray-50 transition-colors cursor-pointer"
                     >
                       Reset
                     </button>

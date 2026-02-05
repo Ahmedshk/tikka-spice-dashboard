@@ -56,7 +56,7 @@ export const ForgotPassword = () => {
           {/* Right Panel - Forgot Password Form */}
           <div className="w-full lg:w-1/2 bg-card-background flex items-center justify-center p-8 h-1/2 lg:h-full">
             <div className="w-full max-w-md">
-              <h2 className="text-[30px] md:text-[40px] 2xl:text-[50px] font-bold text-text-tertiary mb-8">
+              <h2 className="text-[30px] md:text-[40px] 2xl:text-[50px] font-bold text-tertiary mb-8">
                 Forgot Password
               </h2>
 
@@ -97,7 +97,7 @@ export const ForgotPassword = () => {
                 <div className="text-center">
                   <Link
                     to="/login"
-                    className="text-lg md:text-xl 2xl:text-2xl text-text-primary hover:text-button-primary/80 transition-colors underline font-bold"
+                    className="text-lg md:text-xl 2xl:text-2xl text-primary hover:text-button-primary/80 transition-colors underline font-bold"
                   >
                     Back to Login
                   </Link>

@@ -58,10 +58,10 @@ export const ConfirmDialog = ({
       aria-labelledby="confirm-dialog-title"
       aria-describedby="confirm-dialog-message"
     >
-      <h2 id="confirm-dialog-title" className="text-lg font-semibold text-text-secondary mb-2">
+      <h2 id="confirm-dialog-title" className="text-lg font-semibold text-secondary mb-2">
         {title}
       </h2>
-      <p id="confirm-dialog-message" className="text-sm text-text-primary mb-6">
+      <p id="confirm-dialog-message" className="text-sm text-primary mb-6">
         {message}
       </p>
       <div className="flex gap-3 justify-end">
@@ -69,7 +69,7 @@ export const ConfirmDialog = ({
           type="button"
           onClick={onClose}
           disabled={isLoading}
-          className="px-4 py-3 border border-gray-200 rounded-xl text-sm font-medium text-text-primary hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-60"
+          className="px-4 py-3 border border-gray-200 rounded-xl text-sm font-medium text-primary hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-60"
         >
           {cancelLabel}
         </button>

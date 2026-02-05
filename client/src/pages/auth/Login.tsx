@@ -72,7 +72,7 @@ export const Login = () => {
           {/* Right Panel - Login Form */}
           <div className="w-full lg:w-1/2 bg-card-background flex items-center justify-center p-8 h-1/2 lg:h-full">
             <div className="w-full max-w-md">
-              <h2 className="text-[30px] md:text-[40px] 2xl:text-[50px] font-bold text-text-tertiary mb-8 lg:mb-8">Login</h2>
+              <h2 className="text-[30px] md:text-[40px] 2xl:text-[50px] font-bold text-tertiary mb-8 lg:mb-8">Login</h2>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 {error && (
@@ -107,7 +107,7 @@ export const Login = () => {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-text-primary hover:text-button-primary transition-colors focus:outline-none"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-primary hover:text-button-primary transition-colors focus:outline-none"
                       aria-label={showPassword ? 'Hide password' : 'Show password'}
                     >
                       {showPassword ? (
@@ -151,7 +151,7 @@ export const Login = () => {
                   <div className="mt-2 text-right">
                     <Link
                       to="/forgot-password"
-                      className="text-xs md:text-sm 2xl:text-base text-text-primary hover:text-button-primary/80 transition-colors"
+                      className="text-xs md:text-sm 2xl:text-base text-primary hover:text-button-primary/80 transition-colors"
                     >
                       Forgot Password?
                     </Link>

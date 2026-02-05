@@ -3,7 +3,7 @@
 
 @layer base {
   body {
-    @apply font-primary text-text-primary;
+    @apply font-primary text-primary;
   }
 
   button {
@@ -38,7 +38,6 @@
   }
 
   @media (min-width: 768px) {
-
     input[type="text"]::placeholder,
     input[type="email"]::placeholder,
     input[type="password"]::placeholder,
@@ -53,7 +52,6 @@
   }
 
   @media (min-width: 1536px) {
-
     input[type="text"]::placeholder,
     input[type="email"]::placeholder,
     input[type="password"]::placeholder,

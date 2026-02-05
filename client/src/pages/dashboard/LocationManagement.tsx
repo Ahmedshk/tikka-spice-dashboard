@@ -85,8 +85,8 @@ export const LocationManagement = () => {
       <div className="p-6">
         {/* Page header - outside white container */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-          <h2 className="flex items-center gap-2 text-base md:text-lg 2xl:text-xl font-semibold text-text-primary">
-            <AdminAndSettingsIcon className="w-4 h-4 md:w-5 md:h-5 2xl:w-6 2xl:h-6 text-text-primary" aria-hidden />
+          <h2 className="flex items-center gap-2 text-base md:text-lg 2xl:text-xl font-semibold text-primary">
+            <AdminAndSettingsIcon className="w-4 h-4 md:w-5 md:h-5 2xl:w-6 2xl:h-6 text-primary" aria-hidden />
             Location Management
           </h2>
           <button
@@ -102,13 +102,13 @@ export const LocationManagement = () => {
         {/* White container - cards on mobile, table on md+ */}
         <div className="bg-card-background rounded-xl shadow border border-gray-200 overflow-hidden">
           {loading && (
-            <div className="p-8 flex flex-col items-center justify-center gap-3 text-text-primary">
+            <div className="p-8 flex flex-col items-center justify-center gap-3 text-primary">
               <Spinner size="lg" />
               <span>Loading...</span>
             </div>
           )}
           {!loading && locations.length === 0 && (
-            <div className="p-8 text-center text-text-primary">No locations yet. Add one to get started.</div>
+            <div className="p-8 text-center text-primary">No locations yet. Add one to get started.</div>
           )}
           {!loading && locations.length > 0 && (
             <>
@@ -122,7 +122,7 @@ export const LocationManagement = () => {
                       className={`${cardBg} px-4 py-4 sm:px-5 sm:py-4 flex flex-col gap-3`}
                     >
                       <div className="min-w-0">
-                        <p className="text-sm font-medium text-text-primary truncate" title={loc.storeName}>
+                        <p className="text-sm font-medium text-primary truncate" title={loc.storeName}>
                           {loc.storeName}
                         </p>
                         <p className="text-xs text-gray-500 mt-0.5 line-clamp-2" title={loc.address}>
@@ -136,7 +136,7 @@ export const LocationManagement = () => {
                           className="p-2.5 hover:bg-gray-200 rounded-lg transition-colors cursor-pointer touch-manipulation"
                           aria-label={`Edit ${loc.storeName}`}
                         >
-                          <EditIcon className="w-4 h-4 text-text-primary" />
+                          <EditIcon className="w-4 h-4 text-primary" />
                         </button>
                         <button
                           type="button"
@@ -144,7 +144,7 @@ export const LocationManagement = () => {
                           className="p-2.5 hover:bg-gray-200 rounded-lg transition-colors cursor-pointer touch-manipulation"
                           aria-label={`Delete ${loc.storeName}`}
                         >
-                          <DeleteIcon className="w-4 h-4 text-text-primary" />
+                          <DeleteIcon className="w-4 h-4 text-primary" />
                         </button>
                       </div>
                     </div>
@@ -167,8 +167,8 @@ export const LocationManagement = () => {
                       const rowBg = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
                       return (
                         <tr key={loc._id} className={rowBg}>
-                          <td className="w-[30%] px-4 lg:px-6 py-3 lg:py-4 text-xs 2xl:text-sm text-text-primary truncate" title={loc.storeName}>{loc.storeName}</td>
-                          <td className="w-[60%] px-4 lg:px-6 py-3 lg:py-4 text-xs 2xl:text-sm text-text-primary truncate" title={loc.address}>{loc.address}</td>
+                          <td className="w-[30%] px-4 lg:px-6 py-3 lg:py-4 text-xs 2xl:text-sm text-primary truncate" title={loc.storeName}>{loc.storeName}</td>
+                          <td className="w-[60%] px-4 lg:px-6 py-3 lg:py-4 text-xs 2xl:text-sm text-primary truncate" title={loc.address}>{loc.address}</td>
                           <td className="px-4 lg:px-6 py-3 lg:py-4 text-right">
                             <div className="flex items-center justify-end gap-2">
                               <button
@@ -177,7 +177,7 @@ export const LocationManagement = () => {
                                 className="p-2 hover:bg-gray-200 rounded-lg transition-colors cursor-pointer"
                                 aria-label={`Edit ${loc.storeName}`}
                               >
-                                <EditIcon className="w-4 h-4 text-text-primary" />
+                                <EditIcon className="w-4 h-4 text-primary" />
                               </button>
                               <button
                                 type="button"
@@ -185,7 +185,7 @@ export const LocationManagement = () => {
                                 className="p-2 hover:bg-gray-200 rounded-lg transition-colors cursor-pointer"
                                 aria-label={`Delete ${loc.storeName}`}
                               >
-                                <DeleteIcon className="w-4 h-4 text-text-primary" />
+                                <DeleteIcon className="w-4 h-4 text-primary" />
                               </button>
                             </div>
                           </td>

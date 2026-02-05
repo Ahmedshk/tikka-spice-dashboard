@@ -131,8 +131,8 @@ export const Navbar = () => {
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
   return (
-    <nav className="relative z-20 bg-card-background border-b border-gray-200" ref={mobileMenuRef}>
-      <div className="flex items-center justify-between gap-2 px-4 sm:px-6 lg:px-8 py-4">
+    <nav className="relative z-20 bg-card-background border-b border-gray-200 h-[72px] flex flex-col justify-center" ref={mobileMenuRef}>
+      <div className="flex items-center justify-between gap-2 px-4 sm:px-6 lg:px-8">
         {/* Location Selector - full width on mobile, reasonable width on desktop */}
         <div className="relative min-w-0 flex-1 w-full lg:flex-initial lg:max-w-md xl:max-w-xl" ref={locationRef}>
           <button
@@ -154,7 +154,7 @@ export const Navbar = () => {
             className="flex items-center gap-2 w-full px-3 sm:px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-70"
           >
             <LocationIcon className="w-4 h-4 md:w-4.5 md:h-4.5 2xl:w-5 2xl:h-5 flex-shrink-0" />
-            <span className="flex-1 min-w-0 flex items-center gap-2 text-xs md:text-sm 2xl:text-base text-text-primary whitespace-nowrap truncate text-left" title={currentLocation ? `${currentLocation.storeName} – ${currentLocation.address}` : undefined}>
+            <span className="flex-1 min-w-0 flex items-center gap-2 text-xs md:text-sm 2xl:text-base text-primary whitespace-nowrap truncate text-left" title={currentLocation ? `${currentLocation.storeName} – ${currentLocation.address}` : undefined}>
               {locationsLoading && <Spinner size="sm" className="flex-shrink-0 text-button-primary" />}
               {(() => {
                 if (locationsLoading) return 'Loading...';
@@ -180,7 +180,7 @@ export const Navbar = () => {
                         dispatch(setCurrentLocation(loc));
                         setLocationDropdownOpen(false);
                       }}
-                      className={`w-full text-left px-4 py-2 text-xs md:text-sm 2xl:text-base text-text-primary hover:bg-gray-50 transition-colors ${currentLocation?._id === loc._id ? 'bg-button-secondary' : ''}`}
+                      className={`w-full text-left px-4 py-2 text-xs md:text-sm 2xl:text-base text-primary hover:bg-gray-50 transition-colors ${currentLocation?._id === loc._id ? 'bg-button-secondary' : ''}`}
                     >
                       <span className="font-medium block truncate">{loc.storeName}</span>
                       <span className="text-[10px] md:text-xs 2xl:text-sm text-gray-500 truncate block">{loc.address}</span>
@@ -202,7 +202,7 @@ export const Navbar = () => {
             >
               <NotificationIcon className="w-6 h-6" />
               {notificationCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-text-quaternary text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-quaternary text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                   {notificationCount.toString().padStart(2, '0')}
                 </span>
               )}
@@ -210,8 +210,8 @@ export const Navbar = () => {
             {notificationDropdownOpen && (
               <div className="absolute top-full right-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                 <div className="p-4">
-                  <h3 className="text-sm font-semibold text-text-secondary mb-2">Notifications</h3>
-                  <p className="text-sm text-text-primary">No new notifications</p>
+                  <h3 className="text-sm font-semibold text-secondary mb-2">Notifications</h3>
+                  <p className="text-sm text-primary">No new notifications</p>
                 </div>
               </div>
             )}
@@ -227,7 +227,7 @@ export const Navbar = () => {
                 {getUserInitials()}
               </div>
               <div className="text-left">
-                <div className="text-sm font-medium text-text-primary">{getUserDisplayName()}</div>
+                <div className="text-sm font-medium text-primary">{getUserDisplayName()}</div>
                 <div className="text-xs text-gray-500">({getUserRole()})</div>
               </div>
               <ArrowDownIcon className="w-3 h-3" />
@@ -235,8 +235,8 @@ export const Navbar = () => {
             {userDropdownOpen && (
               <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                 <div className="py-2">
-                  <button type="button" className="w-full text-left px-4 py-2 text-sm text-text-primary hover:bg-gray-50 transition-colors cursor-pointer">Profile</button>
-                  <button type="button" className="w-full text-left px-4 py-2 text-sm text-text-primary hover:bg-gray-50 transition-colors cursor-pointer">Settings</button>
+                  <button type="button" className="w-full text-left px-4 py-2 text-sm text-primary hover:bg-gray-50 transition-colors cursor-pointer">Profile</button>
+                  <button type="button" className="w-full text-left px-4 py-2 text-sm text-primary hover:bg-gray-50 transition-colors cursor-pointer">Settings</button>
                   <div className="border-t border-gray-200 my-1" />
                   <button
                     type="button"
@@ -263,9 +263,9 @@ export const Navbar = () => {
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
           >
             {mobileMenuOpen ? (
-              <CloseIcon className="w-6 h-6 text-text-primary" />
+              <CloseIcon className="w-6 h-6 text-primary" />
             ) : (
-              <HamburgerIcon className="w-6 h-6 text-text-primary" />
+              <HamburgerIcon className="w-6 h-6 text-primary" />
             )}
           </button>
         </div>
@@ -282,7 +282,7 @@ export const Navbar = () => {
               {getUserInitials()}
             </div>
             <div className="min-w-0 text-center">
-              <div className="text-sm font-medium text-text-primary truncate">{getUserDisplayName()}</div>
+              <div className="text-sm font-medium text-primary truncate">{getUserDisplayName()}</div>
               <div className="text-xs text-gray-500 truncate">({getUserRole()})</div>
             </div>
             <div className="relative flex-shrink-0" ref={notificationMobileRef}>
@@ -291,9 +291,9 @@ export const Navbar = () => {
                 onClick={() => setNotificationDropdownOpen(!notificationDropdownOpen)}
                 className="relative p-2 hover:opacity-80 rounded-lg transition-opacity cursor-pointer"
               >
-                <NotificationIcon className="w-5 h-5 text-text-quaternary" />
+                <NotificationIcon className="w-5 h-5 text-quaternary" />
                 {notificationCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 bg-text-quaternary text-white text-xs font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
+                  <span className="absolute -top-0.5 -right-0.5 bg-quaternary text-white text-xs font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
                     {notificationCount}
                   </span>
                 )}
@@ -301,8 +301,8 @@ export const Navbar = () => {
               {notificationDropdownOpen && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 max-w-[calc(100vw-2rem)] bg-white border border-gray-200 rounded-lg shadow-lg z-[200]">
                   <div className="p-4">
-                    <h3 className="text-sm font-semibold text-text-secondary mb-2">Notifications</h3>
-                    <p className="text-sm text-text-primary">No new notifications</p>
+                    <h3 className="text-sm font-semibold text-secondary mb-2">Notifications</h3>
+                    <p className="text-sm text-primary">No new notifications</p>
                   </div>
                 </div>
               )}
@@ -313,14 +313,14 @@ export const Navbar = () => {
           <button
             type="button"
             onClick={closeMobileMenu}
-            className="w-full max-w-sm flex items-center justify-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium text-text-primary hover:bg-gray-50 transition-colors cursor-pointer"
+            className="w-full max-w-sm flex items-center justify-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium text-primary hover:bg-gray-50 transition-colors cursor-pointer"
           >
             Profile
           </button>
           <button
             type="button"
             onClick={closeMobileMenu}
-            className="w-full max-w-sm flex items-center justify-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium text-text-primary hover:bg-gray-50 transition-colors cursor-pointer"
+            className="w-full max-w-sm flex items-center justify-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium text-primary hover:bg-gray-50 transition-colors cursor-pointer"
           >
             Settings
           </button>
@@ -330,9 +330,9 @@ export const Navbar = () => {
               closeMobileMenu();
               void logout();
             }}
-            className="w-full max-w-sm flex items-center justify-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium text-text-primary hover:bg-gray-50 transition-colors cursor-pointer"
+            className="w-full max-w-sm flex items-center justify-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium text-primary hover:bg-gray-50 transition-colors cursor-pointer"
           >
-            <LogoutIcon className="w-5 h-5 flex-shrink-0 text-text-primary" />
+            <LogoutIcon className="w-5 h-5 flex-shrink-0 text-primary" />
             Logout
           </button>
         </div>

@@ -30,16 +30,16 @@ const commandCenterKPIs = [
     value: '47.7%',
     accentColor: 'blue' as const,
     badge: 'Goal 20%',
-    badgeClassName: "bg-[rgba(93,197,79,0.2)] text-text-primary text-[10px] md:text-xs 2xl:text-sm px-4"
+    badgeClassName: "bg-[rgba(93,197,79,0.2)] text-primary text-[10px] md:text-xs 2xl:text-sm px-4"
   },
   {
     title: 'Review Rating',
     timePeriod: 'Today',
     value: '4.3',
     accentColor: 'gold' as const,
-    titleIcon: <StarIcon className="w-4 h-4 md:w-5 md:h-5 2xl:w-6 2xl:h-6 text-text-quaternary" aria-hidden />,
+    titleIcon: <StarIcon className="w-4 h-4 md:w-5 md:h-5 2xl:w-6 2xl:h-6 text-quaternary" aria-hidden />,
     subtitle: 'Good',
-    subtitleIcon: <StarIcon className="w-4 h-4 md:w-4 md:h-4 2xl:w-5 2xl:h-5 text-text-quaternary" aria-hidden />,
+    subtitleIcon: <StarIcon className="w-4 h-4 md:w-4 md:h-4 2xl:w-5 2xl:h-5 text-quaternary" aria-hidden />,
     extra: '272 Reviews',
     extraClassName: "bg-[rgba(253,185,14,0.2)] px-4"
   },
@@ -51,8 +51,8 @@ export const CommandCenter = () => {
       <div className="p-6">
         {/* Page header - outside white container */}
         <div className="mb-6">
-          <h2 className="flex items-center gap-2 text-base md:text-lg 2xl:text-xl font-semibold text-text-primary">
-            <CommandCenterIcon className="w-4 h-4 md:w-5 md:h-5 2xl:w-6 2xl:h-6 text-text-primary" aria-hidden />
+          <h2 className="flex items-center gap-2 text-base md:text-lg 2xl:text-xl font-semibold text-primary">
+            <CommandCenterIcon className="w-4 h-4 md:w-5 md:h-5 2xl:w-6 2xl:h-6 text-primary" aria-hidden />
             Command Center
           </h2>
         </div>
@@ -69,28 +69,28 @@ export const CommandCenter = () => {
           {/* Hourly Sales: Today vs. Last Week */}
           <div className={`${cardClass} lg:col-span-2`}>
             <div className="p-5 pb-4 flex items-center justify-between flex-wrap gap-2">
-              <h3 className="text-sm font-semibold text-text-secondary">Hourly Sales: Today vs. Last Week</h3>
+              <h3 className="text-sm font-semibold text-secondary">Hourly Sales: Today vs. Last Week</h3>
               <button
                 type="button"
                 className="p-1.5 hover:bg-button-secondary rounded-lg transition-colors cursor-pointer"
                 aria-label="More options"
               >
-                <span className="text-text-primary text-lg leading-none">⋯</span>
+                <span className="text-primary text-lg leading-none">⋯</span>
               </button>
             </div>
             <div className="px-5 pb-2 flex items-center gap-4">
-              <span className="flex items-center gap-2 text-xs text-text-primary">
-                <span className="w-3 h-3 rounded-full bg-text-quaternary" aria-hidden />
+              <span className="flex items-center gap-2 text-xs text-primary">
+                <span className="w-3 h-3 rounded-full bg-quaternary" aria-hidden />
                 {' '}
                 Today
               </span>
-              <span className="flex items-center gap-2 text-xs text-text-primary">
+              <span className="flex items-center gap-2 text-xs text-primary">
                 <span className="w-3 h-3 rounded-full bg-green-500" aria-hidden />
                 {' '}
                 Last Week
               </span>
             </div>
-            <div className="h-64 px-5 pb-5">
+            <div className="h-64 -mx-3 px-3 pb-3 md:mx-0 md:px-5 md:pb-5">
               <TimeSeriesLineChart
                 xAxisData={hourlySalesXAxis}
                 series={hourlySalesSeries}
@@ -102,7 +102,7 @@ export const CommandCenter = () => {
           {/* Labor Cost Percentage Gauge */}
           <div className={`${cardClass} lg:col-span-1`}>
             <div className="p-5 flex flex-col items-center">
-              <h3 className="text-sm font-semibold text-text-secondary mb-4 text-center">Labor Cost Percentage Gauge</h3>
+              <h3 className="text-sm font-semibold text-secondary mb-4 text-center">Labor Cost Percentage Gauge</h3>
               <div className="flex justify-center w-full">
                 <PercentageGauge
                   value={47.7}
