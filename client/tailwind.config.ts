@@ -16,6 +16,10 @@ const config: Config = {
         "button-secondary": "#F3F5F7",
         "card-background": "#FFFFFF",
         "dashboard-background": "#F5F5F5",
+        /** Positive trend / favorable (e.g. positive %) */
+        positive: "#5DC54F",
+        /** Negative trend / unfavorable (e.g. negative %) */
+        negative: "#F04B5B",
       },
     },
   },

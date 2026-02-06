@@ -68,15 +68,8 @@ export const CommandCenter = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           {/* Hourly Sales: Today vs. Last Week */}
           <div className={`${cardClass} lg:col-span-2`}>
-            <div className="p-5 pb-4 flex items-center justify-between flex-wrap gap-2">
+            <div className="p-5 pb-4 flex items-center flex-wrap gap-2">
               <h3 className="text-sm font-semibold text-secondary">Hourly Sales: Today vs. Last Week</h3>
-              <button
-                type="button"
-                className="p-1.5 hover:bg-button-secondary rounded-lg transition-colors cursor-pointer"
-                aria-label="More options"
-              >
-                <span className="text-primary text-lg leading-none">⋯</span>
-              </button>
             </div>
             <div className="px-5 pb-2 flex items-center gap-4">
               <span className="flex items-center gap-2 text-xs text-primary">

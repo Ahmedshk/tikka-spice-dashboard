@@ -58,7 +58,7 @@ export const LocationModal = ({ isOpen, onClose, onSaved, editLocation }: Locati
   return (
     <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} aria-hidden />
-      <div className="relative w-full max-w-md bg-card-background rounded-xl shadow-lg border border-gray-200 p-6">
+      <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto bg-card-background rounded-xl shadow-lg border border-gray-200 p-6">
         <h3 className="text-lg font-semibold text-secondary mb-4">
           {isEdit ? 'Edit Location' : 'Add Location'}
         </h3>

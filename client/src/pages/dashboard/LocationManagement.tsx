@@ -217,17 +217,19 @@ export const LocationManagement = () => {
         editLocation={editLocation}
       />
 
-      <ConfirmDialog
-        isOpen={locationToDelete !== null}
-        onClose={() => setLocationToDelete(null)}
-        title="Delete location"
-        message={locationToDelete ? `Are you sure you want to delete "${locationToDelete.storeName}"? This cannot be undone.` : ''}
-        confirmLabel="Delete"
-        cancelLabel="Cancel"
-        onConfirm={handleConfirmDelete}
-        variant="danger"
-        isLoading={deleting}
-      />
+      {locationToDelete != null && (
+        <ConfirmDialog
+          isOpen
+          onClose={() => setLocationToDelete(null)}
+          title="Delete location"
+          message={`Are you sure you want to delete "${locationToDelete.storeName}"? This cannot be undone.`}
+          confirmLabel="Delete"
+          cancelLabel="Cancel"
+          onConfirm={handleConfirmDelete}
+          variant="danger"
+          isLoading={deleting}
+        />
+      )}
     </Layout>
   );
 };

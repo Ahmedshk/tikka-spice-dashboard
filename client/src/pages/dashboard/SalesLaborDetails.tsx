@@ -122,15 +122,8 @@ export const SalesLaborDetails = () => {
         {/* Middle: Hourly Breakdown (2/3) + Sources of Sales (1/3) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           <div className={`${cardClass} lg:col-span-2`}>
-            <div className="p-5 pb-4 flex items-center justify-between flex-wrap gap-2">
+            <div className="p-5 pb-4 flex items-center flex-wrap gap-2">
               <h3 className="text-sm md:text-base 2xl:text-lg font-semibold text-secondary">Hourly Breakdown</h3>
-              <button
-                type="button"
-                className="p-1.5 hover:bg-button-secondary rounded-lg transition-colors cursor-pointer"
-                aria-label="More options"
-              >
-                <span className="text-primary text-lg leading-none">⋯</span>
-              </button>
             </div>
             <div className="px-5 pb-2 flex items-center gap-4">
               <span className="flex items-center gap-2 text-xs text-primary">
@@ -153,16 +146,8 @@ export const SalesLaborDetails = () => {
           </div>
 
           <div className={cardClass}>
-            <div className="p-5 pb-4 grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-              <div />
+            <div className="p-5 pb-4 flex items-center justify-center">
               <h3 className="text-sm md:text-base 2xl:text-lg font-semibold text-secondary text-center">Sources of Sales <span className="font-medium text-primary text-[10px] md:text-xs 2xl:text-sm">(Today)</span></h3>
-              <button
-                type="button"
-                className="p-1.5 hover:bg-button-secondary rounded-lg transition-colors cursor-pointer justify-self-end"
-                aria-label="More options"
-              >
-                <span className="text-primary text-lg leading-none">⋯</span>
-              </button>
             </div>
             <div className="px-5 pb-5">
               <SourcesOfSalesChart totalSales="$8,425" segments={sourcesOfSalesSegments} />
@@ -173,15 +158,8 @@ export const SalesLaborDetails = () => {
         {/* Bottom: Staff table (2/3) + Daily Targets (1/3) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className={`${cardClass} lg:col-span-2`}>
-            <div className="rounded-t-xl bg-[#5B6B79] px-5 py-1 md:py-2 flex items-center justify-between flex-wrap gap-2">
+            <div className="rounded-t-xl bg-[#5B6B79] px-5 py-1 md:py-2 flex items-center justify-center md:justify-start flex-wrap gap-2">
               <h3 className="text-sm md:text-base 2xl:text-lg font-semibold text-white">List of Currently Clocked-in staff</h3>
-              <button
-                type="button"
-                className="p-1.5 hover:bg-white/20 rounded-lg transition-colors cursor-pointer"
-                aria-label="More options"
-              >
-                <span className="text-white text-lg leading-none">⋯</span>
-              </button>
             </div>
             <div className="p-5">
               <ClockedInStaffTable rows={clockedInStaffRows} />
@@ -189,15 +167,8 @@ export const SalesLaborDetails = () => {
           </div>
 
           <div className={`${cardClass} lg:col-span-1`}>
-            <div className="rounded-t-xl bg-[#5B6B79] px-5 py-1 md:py-2 flex items-center justify-between flex-wrap gap-2">
+            <div className="rounded-t-xl bg-[#5B6B79] px-5 py-1 md:py-2 flex items-center justify-center md:justify-start flex-wrap gap-2">
               <h3 className="text-sm md:text-base 2xl:text-lg font-semibold text-white">Daily Targets vs Actual</h3>
-              <button
-                type="button"
-                className="p-1.5 hover:bg-white/20 rounded-lg transition-colors cursor-pointer"
-                aria-label="More options"
-              >
-                <span className="text-white text-lg leading-none">⋯</span>
-              </button>
             </div>
             <div className="p-5">
               <DailyTargetsCard items={dailyTargetsItems} />

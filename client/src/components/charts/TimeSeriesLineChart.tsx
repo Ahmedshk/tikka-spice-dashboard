@@ -9,6 +9,12 @@ export interface TimeSeriesSeries {
   color?: string;
 }
 
+export interface TimeSeriesLineChartYAxisOverrides {
+  min?: number;
+  max?: number;
+  valueFormatter?: (value: number) => string;
+}
+
 export interface TimeSeriesLineChartProps {
   /** X-axis labels (same length as each series data) */
   xAxisData: (string | number)[];
@@ -17,6 +23,8 @@ export interface TimeSeriesLineChartProps {
   height?: number;
   /** Optional colors in order; overrides series[].color if provided */
   colors?: string[];
+  /** Optional Y-axis overrides (e.g. min, max, valueFormatter for currency) */
+  yAxis?: TimeSeriesLineChartYAxisOverrides;
 }
 
 const defaultTheme = createTheme({
@@ -33,6 +41,7 @@ export const TimeSeriesLineChart = ({
   series,
   height = 256,
   colors,
+  yAxis: yAxisOverrides,
 }: TimeSeriesLineChartProps) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
@@ -55,9 +64,12 @@ export const TimeSeriesLineChart = ({
       tickLabelStyle: { ...LABEL_FONT, fontSize: 9 },
     };
 
-  const yAxisConfig = isDesktop
+  const baseYAxisConfig = isDesktop
     ? { tickLabelStyle: LABEL_FONT, labelStyle: LABEL_FONT }
     : { tickLabelStyle: { ...LABEL_FONT, fontSize: 10 }, labelStyle: { ...LABEL_FONT, fontSize: 9 } };
+  const yAxisConfig = yAxisOverrides
+    ? { ...baseYAxisConfig, ...yAxisOverrides }
+    : baseYAxisConfig;
 
   return (
     <ThemeProvider theme={defaultTheme}>

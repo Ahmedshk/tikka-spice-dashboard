@@ -25,11 +25,24 @@ export const ConfirmDialog = ({
   isLoading = false,
 }: ConfirmDialogProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
   useEffect(() => {
-    if (isOpen) dialogRef.current?.showModal();
-    else dialogRef.current?.close();
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (isOpen && !dialog.open) dialog.showModal();
+    else if (!isOpen && dialog.open) dialog.close();
   }, [isOpen]);
+
+  // Sync parent state when dialog is closed by any means (Escape, backdrop, or programmatic)
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    const handleClose = () => onCloseRef.current();
+    dialog.addEventListener('close', handleClose);
+    return () => dialog.removeEventListener('close', handleClose);
+  }, []);
 
   const handleCancel = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -54,10 +67,11 @@ export const ConfirmDialog = ({
     <dialog
       ref={dialogRef}
       onCancel={handleCancel}
-      className="fixed inset-0 z-[300] m-auto w-full max-w-md rounded-xl border border-gray-200 bg-card-background p-6 shadow-lg [&::backdrop]:bg-black/50"
+      className="fixed inset-0 z-[300] m-0 grid h-screen w-screen min-h-screen min-w-full max-w-none max-h-none place-items-center bg-transparent border-0 p-4 outline-none [&::backdrop]:bg-black/50"
       aria-labelledby="confirm-dialog-title"
       aria-describedby="confirm-dialog-message"
     >
+      <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-xl border border-gray-200 bg-card-background p-6 shadow-lg">
       <h2 id="confirm-dialog-title" className="text-lg font-semibold text-secondary mb-2">
         {title}
       </h2>
@@ -88,6 +102,7 @@ export const ConfirmDialog = ({
             confirmLabel
           )}
         </button>
+      </div>
       </div>
     </dialog>
   );

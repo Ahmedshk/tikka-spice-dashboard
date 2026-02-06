@@ -1,4 +1,5 @@
 import { LinearProgress } from '@mui/material';
+import { TREND_POSITIVE, TREND_NEGATIVE } from '../../constants/trendColors';
 
 export interface TargetActualItem {
   label: string;
@@ -25,7 +26,7 @@ export const DailyTargetsCard = ({ items }: DailyTargetsCardProps) => {
         const displayPercent = item.target === 0
           ? 0
           : Math.min(100, Math.round((item.actual / item.target) * 100));
-        const barColor = isUnfavorable ? '#F04B5B' : '#5DC54F';
+        const barColor = isUnfavorable ? TREND_NEGATIVE : TREND_POSITIVE;
 
         return (
           <div key={item.label}>

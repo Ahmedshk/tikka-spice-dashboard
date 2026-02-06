@@ -57,18 +57,11 @@ export const AlertsCard = ({ categories = defaultCategories }: AlertsCardProps) 
   return (
     <div className="bg-card-background rounded-xl shadow border border-gray-200 overflow-hidden">
       {/* Header */}
-      <div className="p-5 pb-4 flex items-center justify-between flex-wrap gap-2 border-b border-gray-200">
+      <div className="p-5 pb-4 flex items-center flex-wrap gap-2 border-b border-gray-200">
         <h3 className="text-sm md:text-base 2xl:text-lg font-semibold text-secondary flex items-center gap-2">
           <AlertsIcon className="w-5 h-5 md:w-6 md:h-6 2xl:w-7 2xl:h-7 flex-shrink-0" aria-hidden />
           Alerts
         </h3>
-        <button
-          type="button"
-          className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
-          aria-label="More options"
-        >
-          <span className="text-primary text-lg leading-none">⋯</span>
-        </button>
       </div>
 
       {/* Categories: one row per category, title above and alerts below */}
