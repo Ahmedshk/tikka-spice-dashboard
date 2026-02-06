@@ -1,9 +1,11 @@
 import { Layout } from '../../components/common/Layout';
-import { KPICard } from '../../components/common/KPICard';
-import { HourlyBreakdownChart } from '../../components/charts/HourlyBreakdownChart';
-import { SourcesOfSalesChart } from '../../components/charts/SourcesOfSalesChart';
-import { ClockedInStaffTable } from '../../components/SalesLabor/ClockedInStaffTable';
-import { DailyTargetsCard } from '../../components/SalesLabor/DailyTargetsCard';
+import {
+  SalesLaborKPICards,
+  HourlyBreakdownCard,
+  SourcesOfSalesCard,
+  ClockedInStaffCard,
+  DailyTargetsSectionCard,
+} from '../../components/SalesLabor';
 import SalesAndLaborIcon from '@assets/icons/sales_and_labor.svg?react';
 import DollarIcon from '@assets/icons/dollar.svg?react';
 import ActualLaborCostIcon from '@assets/icons/actual_labor_cost.svg?react';
@@ -12,8 +14,6 @@ import SalesPerManHourIcon from '@assets/icons/sales_per_man_hour.svg?react';
 import NoOfTransactionsIcon from '@assets/icons/no_of_transactions.svg?react';
 import AverageCheckIcon from '@assets/icons/average_check.svg?react';
 import TotalDiscountsIcon from '@assets/icons/total_discounts.svg?react';
-
-const cardClass = 'bg-card-background rounded-xl shadow border border-gray-200 overflow-hidden';
 
 const hourlyLabels = ['08 am', '09 am', '10 am', '11 am', '12 pm', '01 pm', '02 pm', '03 pm', '04 pm', '05 pm', '06 pm', '07 pm'];
 const hourlySalesData = [120, 280, 420, 580, 720, 650, 480, 520, 610, 750, 680, 390];
@@ -29,9 +29,9 @@ const sourcesOfSalesSegments = [
 const clockedInStaffRows = [
   { name: 'Alex Jonson', role: 'Line Cook', clockIn: '10:00 am', currentHours: 6.5, status: 'On Clock' as const },
   { name: 'Kraven meachle', role: 'Prep Cook', clockIn: '8:00 am', currentHours: 6.5, status: 'On Break' as const },
-  { name: 'Sarah Miller', role: 'Server', clockIn: '9:30 am', currentHours: 5.0, status: 'On Clock' as const },
-  { name: 'James Wilson', role: 'Line Cook', clockIn: '11:00 am', currentHours: 4.0, status: 'On Clock' as const },
-  { name: 'Emma Davis', role: 'Prep Cook', clockIn: '7:00 am', currentHours: 8.0, status: 'On Break' as const },
+  { name: 'Sarah Miller', role: 'Server', clockIn: '9:30 am', currentHours: 5, status: 'On Clock' as const },
+  { name: 'James Wilson', role: 'Line Cook', clockIn: '11:00 am', currentHours: 4, status: 'On Clock' as const },
+  { name: 'Emma Davis', role: 'Prep Cook', clockIn: '7:00 am', currentHours: 8, status: 'On Break' as const },
 ];
 
 const dailyTargetsItems = [
@@ -112,68 +112,26 @@ export const SalesLaborDetails = () => {
           </h2>
         </div>
 
-        {/* Top: 8 KPI cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          {salesLaborKPIs.map((kpi) => (
-            <KPICard key={kpi.title} {...kpi} />
-          ))}
-        </div>
+        <SalesLaborKPICards items={salesLaborKPIs} />
 
-        {/* Middle: Hourly Breakdown (2/3) + Sources of Sales (1/3) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-          <div className={`${cardClass} lg:col-span-2`}>
-            <div className="p-5 pb-4 flex items-center flex-wrap gap-2">
-              <h3 className="text-sm md:text-base 2xl:text-lg font-semibold text-secondary">Hourly Breakdown</h3>
-            </div>
-            <div className="px-5 pb-2 flex items-center gap-4">
-              <span className="flex items-center gap-2 text-xs text-primary">
-                <span className="w-3 h-3 rounded-full bg-quaternary" aria-hidden />
-                Sales Per hours
-              </span>
-              <span className="flex items-center gap-2 text-xs text-primary">
-                <span className="w-3 h-3 rounded-full bg-red-500" aria-hidden />
-                Labor Cost Per hours
-              </span>
-            </div>
-            <div className="-mx-3 px-3 pb-3 md:mx-0 md:px-5 md:pb-5">
-              <HourlyBreakdownChart
-                xAxisLabels={hourlyLabels}
-                salesData={hourlySalesData}
-                laborCostData={hourlyLaborCostData}
-                height={280}
-              />
-            </div>
-          </div>
-
-          <div className={cardClass}>
-            <div className="p-5 pb-4 flex items-center justify-center">
-              <h3 className="text-sm md:text-base 2xl:text-lg font-semibold text-secondary text-center">Sources of Sales <span className="font-medium text-primary text-[10px] md:text-xs 2xl:text-sm">(Today)</span></h3>
-            </div>
-            <div className="px-5 pb-5">
-              <SourcesOfSalesChart totalSales="$8,425" segments={sourcesOfSalesSegments} />
-            </div>
-          </div>
+          <HourlyBreakdownCard
+            xAxisLabels={hourlyLabels}
+            salesData={hourlySalesData}
+            laborCostData={hourlyLaborCostData}
+            height={280}
+            className="lg:col-span-2"
+          />
+          <SourcesOfSalesCard
+            totalSales="$8,425"
+            segments={sourcesOfSalesSegments}
+            subtitle="Today"
+          />
         </div>
 
-        {/* Bottom: Staff table (2/3) + Daily Targets (1/3) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className={`${cardClass} lg:col-span-2`}>
-            <div className="rounded-t-xl bg-[#5B6B79] px-5 py-1 md:py-2 flex items-center justify-center md:justify-start flex-wrap gap-2">
-              <h3 className="text-sm md:text-base 2xl:text-lg font-semibold text-white">List of Currently Clocked-in staff</h3>
-            </div>
-            <div className="p-5">
-              <ClockedInStaffTable rows={clockedInStaffRows} />
-            </div>
-          </div>
-
-          <div className={`${cardClass} lg:col-span-1`}>
-            <div className="rounded-t-xl bg-[#5B6B79] px-5 py-1 md:py-2 flex items-center justify-center md:justify-start flex-wrap gap-2">
-              <h3 className="text-sm md:text-base 2xl:text-lg font-semibold text-white">Daily Targets vs Actual</h3>
-            </div>
-            <div className="p-5">
-              <DailyTargetsCard items={dailyTargetsItems} />
-            </div>
-          </div>
+          <ClockedInStaffCard rows={clockedInStaffRows} className="lg:col-span-2" />
+          <DailyTargetsSectionCard items={dailyTargetsItems} />
         </div>
       </div>
     </Layout>

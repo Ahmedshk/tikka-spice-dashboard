@@ -1,13 +1,13 @@
 import { Layout } from '../../components/common/Layout';
-import { KPICard } from '../../components/common/KPICard';
-import { AlertsCard } from '../../components/CommandCenter/AlertsCard';
-import { TimeSeriesLineChart } from '../../components/charts/TimeSeriesLineChart';
-import { PercentageGauge } from '../../components/gauges/PercentageGauge';
+import {
+  CommandCenterKPICards,
+  HourlySalesChartCard,
+  LaborCostGaugeCard,
+  AlertsCard,
+} from '../../components/CommandCenter';
 import CommandCenterIcon from '@assets/icons/command_center.svg?react';
 import DollarIcon from '@assets/icons/dollar.svg?react';
 import StarIcon from '@assets/icons/star.svg?react';
-
-const cardClass = 'bg-card-background rounded-xl shadow border border-gray-200 overflow-hidden';
 
 const hourlySalesXAxis = ['08 am', '11 am', '02 pm', '05 pm', '07 pm'];
 const hourlySalesSeries = [
@@ -49,7 +49,6 @@ export const CommandCenter = () => {
   return (
     <Layout>
       <div className="p-6">
-        {/* Page header - outside white container */}
         <div className="mb-6">
           <h2 className="flex items-center gap-2 text-base md:text-lg 2xl:text-xl font-semibold text-primary">
             <CommandCenterIcon className="w-4 h-4 md:w-5 md:h-5 2xl:w-6 2xl:h-6 text-primary" aria-hidden />
@@ -57,58 +56,23 @@ export const CommandCenter = () => {
           </h2>
         </div>
 
-        {/* Top row: KPI cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          {commandCenterKPIs.map((kpi) => (
-            <KPICard key={kpi.title} {...kpi} />
-          ))}
-        </div>
+        <CommandCenterKPICards items={commandCenterKPIs} />
 
-        {/* Middle row: Chart (2/3) + Gauge (1/3) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-          {/* Hourly Sales: Today vs. Last Week */}
-          <div className={`${cardClass} lg:col-span-2`}>
-            <div className="p-5 pb-4 flex items-center flex-wrap gap-2">
-              <h3 className="text-sm font-semibold text-secondary">Hourly Sales: Today vs. Last Week</h3>
-            </div>
-            <div className="px-5 pb-2 flex items-center gap-4">
-              <span className="flex items-center gap-2 text-xs text-primary">
-                <span className="w-3 h-3 rounded-full bg-quaternary" aria-hidden />
-                {' '}
-                Today
-              </span>
-              <span className="flex items-center gap-2 text-xs text-primary">
-                <span className="w-3 h-3 rounded-full bg-green-500" aria-hidden />
-                {' '}
-                Last Week
-              </span>
-            </div>
-            <div className="h-64 -mx-3 px-3 pb-3 md:mx-0 md:px-5 md:pb-5">
-              <TimeSeriesLineChart
-                xAxisData={hourlySalesXAxis}
-                series={hourlySalesSeries}
-                height={256}
-              />
-            </div>
-          </div>
-
-          {/* Labor Cost Percentage Gauge */}
-          <div className={`${cardClass} lg:col-span-1`}>
-            <div className="p-5 flex flex-col items-center">
-              <h3 className="text-sm font-semibold text-secondary mb-4 text-center">Labor Cost Percentage Gauge</h3>
-              <div className="flex justify-center w-full">
-                <PercentageGauge
-                  value={47.7}
-                  subtitle="Labor vs Goals"
-                  overTarget={3.7}
-                  size={340}
-                />
-              </div>
-            </div>
-          </div>
+          <HourlySalesChartCard
+            xAxisData={hourlySalesXAxis}
+            series={hourlySalesSeries}
+            height={256}
+            className="lg:col-span-2"
+          />
+          <LaborCostGaugeCard
+            value={47.7}
+            subtitle="Labor vs Goals"
+            overTarget={3.7}
+            size={340}
+          />
         </div>
 
-        {/* Bottom: Alerts card */}
         <AlertsCard />
       </div>
     </Layout>

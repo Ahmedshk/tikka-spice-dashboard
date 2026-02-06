@@ -33,7 +33,7 @@ function formatCell(value: string | number): string {
   return typeof value === 'number' ? value.toLocaleString() : value;
 }
 
-const cardSelectClass = 'border-0 rounded-lg px-2 py-1 text-xs font-medium text-[#5B6B79] bg-white focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer';
+const cardSelectClass = 'border-0 rounded-lg px-2 py-1 text-xs font-medium text-primary bg-white focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer';
 
 export const KPIsTableCard = ({
   rows,
@@ -49,7 +49,7 @@ export const KPIsTableCard = ({
 }: KPIsTableCardProps) => {
   return (
     <div className="flex flex-col h-full">
-      <div className="rounded-t-xl bg-[#5B6B79] px-5 py-1 md:py-2 flex flex-col md:flex-row items-center justify-center md:justify-between flex-wrap gap-2">
+      <div className="rounded-t-xl bg-primary px-5 py-1 md:py-2 flex flex-col md:flex-row items-center justify-center md:justify-between flex-wrap gap-2">
         <h3 className="text-sm md:text-base 2xl:text-lg font-semibold text-white shrink-0">{title}</h3>
         {onPeriodChange != null && onComparisonChange != null && (
           <div className="flex items-center gap-2 flex-wrap md:ml-auto justify-center">

@@ -47,25 +47,25 @@ export const Pagination = ({
   if (totalPages <= 1 && totalItems <= pageSize) return null;
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-4 py-3 sm:px-6 border-t border-gray-200 bg-card-background">
-      <p className="text-xs sm:text-sm text-primary order-2 sm:order-1">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4 px-3 py-2 sm:px-6 sm:py-3 border-t border-gray-200 bg-card-background">
+      <p className="text-[10px] sm:text-sm text-primary order-2 sm:order-1">
         Showing <span className="font-medium">{startItem}</span>–<span className="font-medium">{endItem}</span> of{' '}
         <span className="font-medium">{totalItems}</span>
       </p>
-      <nav className="flex items-center gap-1 sm:gap-2 order-1 sm:order-2" aria-label="Pagination">
+      <nav className="flex items-center gap-0.5 sm:gap-2 order-1 sm:order-2" aria-label="Pagination">
         <button
           type="button"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage <= 1}
-          className="min-w-[2.25rem] h-9 px-2 sm:px-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-primary hover:bg-button-secondary transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
+          className="min-w-[1.75rem] sm:min-w-[2.25rem] h-7 sm:h-9 px-1.5 sm:px-3 rounded-lg sm:rounded-xl border border-gray-200 bg-white text-xs sm:text-sm font-medium text-primary hover:bg-button-secondary transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
           aria-label="Previous page"
         >
           Previous
         </button>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-0.5">
           {pageNumbers.map((page, i) =>
             page === 'ellipsis' ? (
-              <span key={i < pageNumbers.length / 2 ? 'ellipsis-start' : 'ellipsis-end'} className="px-2 text-primary" aria-hidden>
+              <span key={i < pageNumbers.length / 2 ? 'ellipsis-start' : 'ellipsis-end'} className="px-1 sm:px-2 text-primary text-xs sm:text-sm" aria-hidden>
                 …
               </span>
             ) : (
@@ -74,7 +74,7 @@ export const Pagination = ({
                 type="button"
                 onClick={() => onPageChange(page)}
                 disabled={page === currentPage}
-                className={`min-w-[2.25rem] h-9 px-2 rounded-xl text-sm font-medium transition-colors cursor-pointer ${page === currentPage
+                className={`min-w-[1.75rem] sm:min-w-[2.25rem] h-7 sm:h-9 px-1.5 sm:px-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors cursor-pointer ${page === currentPage
                     ? 'bg-button-primary text-white cursor-default'
                     : 'border border-gray-200 bg-white text-primary hover:bg-button-secondary'
                   }`}
@@ -90,7 +90,7 @@ export const Pagination = ({
           type="button"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage >= totalPages}
-          className="min-w-[2.25rem] h-9 px-2 sm:px-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-primary hover:bg-button-secondary transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
+          className="min-w-[1.75rem] sm:min-w-[2.25rem] h-7 sm:h-9 px-1.5 sm:px-3 rounded-lg sm:rounded-xl border border-gray-200 bg-white text-xs sm:text-sm font-medium text-primary hover:bg-button-secondary transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
           aria-label="Next page"
         >
           Next

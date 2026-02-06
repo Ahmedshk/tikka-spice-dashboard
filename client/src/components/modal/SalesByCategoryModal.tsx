@@ -15,7 +15,7 @@ const DEFAULT_COMPARISON_OPTIONS = [
   { value: 'vs. Previous Period', label: 'Previous Period' },
 ];
 
-const modalSelectClass = 'border-0 rounded-lg px-2 py-1 text-xs font-medium text-[#5B6B79] bg-white focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer';
+const modalSelectClass = 'border-0 rounded-lg px-2 py-1 text-xs font-medium text-primary bg-white focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer';
 
 type ViewMode = 'table' | 'visual';
 
@@ -112,7 +112,7 @@ export const SalesByCategoryModal = ({
           <span className="text-lg md:text-xl 2xl:text-2xl leading-none">×</span>
         </button>
         <div className="relative max-h-[90vh] flex flex-col bg-card-background rounded-xl shadow-lg border-b border-gray-200 overflow-hidden">
-          <div className="relative w-full rounded-t-xl bg-[#5B6B79] px-5 py-3 flex flex-col md:flex-row items-center justify-center md:justify-between flex-shrink-0 flex-wrap gap-2 z-0">
+          <div className="relative w-full rounded-t-xl bg-primary px-5 py-3 flex flex-col md:flex-row items-center justify-center md:justify-between flex-shrink-0 flex-wrap gap-2 z-0">
             <h2 id="sales-by-category-modal-title" className="text-sm md:text-base 2xl:text-lg font-semibold text-white shrink-0">Sales by Category</h2>
             <div className="flex items-center gap-2 flex-wrap justify-center">
               {onPeriodChange != null && onComparisonChange != null && (
@@ -144,7 +144,7 @@ export const SalesByCategoryModal = ({
                 <button
                   type="button"
                   onClick={() => onViewModeChange('table')}
-                  className={`px-2 py-1 text-xs font-medium transition-colors ${viewMode === 'table' ? 'bg-white text-[#5B6B79]' : 'text-white hover:bg-white/10'}`}
+                  className={`px-2 py-1 text-xs font-medium transition-colors ${viewMode === 'table' ? 'bg-white text-primary' : 'text-white hover:bg-white/10'}`}
                   aria-pressed={viewMode === 'table'}
                 >
                   Table
@@ -152,7 +152,7 @@ export const SalesByCategoryModal = ({
                 <button
                   type="button"
                   onClick={() => onViewModeChange('visual')}
-                  className={`px-2 py-1 text-xs font-medium transition-colors ${viewMode === 'visual' ? 'bg-white text-[#5B6B79]' : 'text-white hover:bg-white/10'}`}
+                  className={`px-2 py-1 text-xs font-medium transition-colors ${viewMode === 'visual' ? 'bg-white text-primary' : 'text-white hover:bg-white/10'}`}
                   aria-pressed={viewMode === 'visual'}
                 >
                   Visual

@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { Layout } from '../../components/common/Layout';
-import { TimeSeriesLineChart } from '../../components/charts/TimeSeriesLineChart';
-import { KPIsTableCard } from '../../components/SalesTrend/KPIsTableCard';
-import { SalesByCategoryCard } from '../../components/SalesTrend/SalesByCategoryCard';
+import { SalesTrendChartCard, KPIsTableCard, SalesByCategoryCard } from '../../components/SalesTrend';
 import SalesAndLaborIcon from '@assets/icons/sales_and_labor.svg?react';
 
 const cardClass = 'bg-card-background rounded-xl shadow border border-gray-200 overflow-hidden';
@@ -131,46 +129,18 @@ export const SalesTrendReports = () => {
           </div>
         </div>
 
-        {/* Sales Trend card - full width */}
-        <div className={`${cardClass} mb-6`}>
-          <div className="p-5 pb-4 flex items-center justify-between flex-wrap gap-2">
-            <h3 className="text-sm md:text-base 2xl:text-lg font-semibold text-secondary">Sales Trend</h3>
-            <div className="flex items-center gap-1.5">
-              <span className="text-xs text-secondary">Group by:</span>
-              <select
-                value={groupBy}
-                onChange={(e) => setGroupBy(e.target.value)}
-                className="border border-gray-300 rounded-lg px-2 py-1 text-xs text-primary bg-white focus:outline-none focus:ring-2 focus:ring-quaternary/30"
-              >
-                <option value="None">None</option>
-              </select>
-            </div>
-          </div>
-          <div className="px-5 pb-2 flex items-center gap-4">
-            <span className="flex items-center gap-2 text-xs text-primary">
-              <span className="w-3 h-3 rounded-full bg-quaternary" aria-hidden />
-              {' '}
-              Today
-            </span>
-            <span className="flex items-center gap-2 text-xs text-primary">
-              <span className="w-3 h-3 rounded-full bg-green-500" aria-hidden />
-              {' '}
-              Last Week
-            </span>
-          </div>
-          <div className="px-5 pb-5 -mx-3 md:mx-0">
-            <TimeSeriesLineChart
-              xAxisData={salesTrendDateLabels}
-              series={salesTrendSeries}
-              height={280}
-              yAxis={{
-                min: 0,
-                max: 25000,
-                valueFormatter: (v) => `$${v / 1000}k`,
-              }}
-            />
-          </div>
-        </div>
+        <SalesTrendChartCard
+          xAxisData={salesTrendDateLabels}
+          series={salesTrendSeries}
+          groupBy={groupBy}
+          onGroupByChange={setGroupBy}
+          height={280}
+          yAxis={{
+            min: 0,
+            max: 25000,
+            valueFormatter: (v) => `$${v / 1000}k`,
+          }}
+        />
 
         {/* Bottom: KPIs + Sales by Category (50/50) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

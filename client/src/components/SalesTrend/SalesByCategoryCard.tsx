@@ -50,7 +50,7 @@ function getPercentChange(currentValue: number, comparisonValue: number): number
   return ((currentValue - comparisonValue) / comparisonValue) * 100;
 }
 
-const cardSelectClass = 'border-0 rounded-lg px-2 py-1 text-xs font-medium text-[#5B6B79] bg-white focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer';
+const cardSelectClass = 'border-0 rounded-lg px-2 py-1 text-xs font-medium text-primary bg-white focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer';
 
 export const SalesByCategoryCard = ({
   items,
@@ -78,7 +78,7 @@ export const SalesByCategoryCard = ({
 
   return (
     <div className="flex flex-col h-full">
-      <div className="rounded-t-xl bg-[#5B6B79] px-5 py-1 md:py-2 flex flex-col md:flex-row items-center justify-center md:justify-between flex-wrap gap-2">
+      <div className="rounded-t-xl bg-primary px-5 py-1 md:py-2 flex flex-col md:flex-row items-center justify-center md:justify-between flex-wrap gap-2">
         <h3 className="text-sm md:text-base 2xl:text-lg font-semibold text-white shrink-0">Sales by Category</h3>
         <div className="flex items-center gap-2 flex-wrap justify-center">
           {onPeriodChange != null && onComparisonChange != null && (
@@ -110,7 +110,7 @@ export const SalesByCategoryCard = ({
             <button
               type="button"
               onClick={() => setViewMode('table')}
-              className={`px-2 py-1 text-xs font-medium transition-colors ${viewMode === 'table' ? 'bg-white text-[#5B6B79]' : 'text-white hover:bg-white/10'}`}
+              className={`px-2 py-1 text-xs font-medium transition-colors ${viewMode === 'table' ? 'bg-white text-primary' : 'text-white hover:bg-white/10'}`}
               aria-pressed={viewMode === 'table'}
             >
               Table
@@ -118,7 +118,7 @@ export const SalesByCategoryCard = ({
             <button
               type="button"
               onClick={() => setViewMode('visual')}
-              className={`px-2 py-1 text-xs font-medium transition-colors ${viewMode === 'visual' ? 'bg-white text-[#5B6B79]' : 'text-white hover:bg-white/10'}`}
+              className={`px-2 py-1 text-xs font-medium transition-colors ${viewMode === 'visual' ? 'bg-white text-primary' : 'text-white hover:bg-white/10'}`}
               aria-pressed={viewMode === 'visual'}
             >
               Visual
