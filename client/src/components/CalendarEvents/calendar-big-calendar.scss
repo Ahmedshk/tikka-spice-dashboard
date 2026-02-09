@@ -1,0 +1,183 @@
+// Override react-big-calendar variables to align with app (Tailwind gray-200, etc.)
+$cell-border: #e5e7eb;
+$calendar-border: #e5e7eb;
+$border-color: #e5e7eb;
+
+$today-highlight-bg: #f3f4f6;
+
+$btn-color: #374151;
+$btn-bg: #fff;
+$btn-border: #e5e7eb;
+
+$event-bg: #3174ad;
+$event-border: #2563a8;
+$event-color: #000;
+
+@import 'react-big-calendar/lib/sass/styles';
+
+// Agenda view: do not color the date column (override row/event styling)
+.rbc-agenda-view {
+  .rbc-agenda-date-cell {
+    background: #fff;
+  }
+}
+
+// Month view: use CSS Grid so header and all rows share the same 7 columns (fixes alignment drift)
+.rbc-month-view {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .rbc-month-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  .rbc-month-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: auto 1fr;
+    width: 100%;
+    min-height: 0;
+  }
+
+  .rbc-row-bg {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-row: 1 / -1;
+    min-height: 0;
+  }
+
+  .rbc-row-content {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-rows: auto;
+    grid-row: 1 / -1;
+    min-height: 0;
+    align-content: start;
+  }
+
+  // Date row: make its 7 children direct grid cells of row-content
+  .rbc-row-content .rbc-row:first-child {
+    display: contents;
+  }
+
+  .rbc-row-content .rbc-row:first-child > * {
+    min-width: 0;
+  }
+
+  // Event rows and scrollable area span all 7 columns
+  .rbc-row-content .ScrollableWeekWrapper,
+  .rbc-row-content .rbc-row-segment {
+    grid-column: 1 / -1;
+  }
+
+  .rbc-row-content > .rbc-row:first-child ~ * {
+    grid-column: 1 / -1;
+  }
+
+  // Match date row alignment to header: center (library defaults to text-align: right)
+  .rbc-date-cell {
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  // Today: highlight with border instead of background
+  .rbc-day-bg.rbc-today {
+    background-color: transparent !important;
+    border: 2px solid #fbc52a !important;
+  }
+}
+
+// Week/day view (desktop): align header cells with time grid columns and account for scrollbar
+.rbc-time-view {
+  .rbc-time-content {
+    scrollbar-gutter: stable;
+  }
+
+  // Same flex so header and day columns share width equally
+  .rbc-time-header .rbc-row .rbc-header,
+  .rbc-time-content .rbc-day-slot,
+  .rbc-row-content .rbc-row .rbc-day-slot {
+    flex: 1 1 0;
+    min-width: 0;
+    width: 0;
+    box-sizing: border-box;
+  }
+}
+
+// Mobile: horizontal scroll for month grid so day cells keep minimum width
+@media (max-width: 767px) {
+  // Smaller toolbar buttons (Today, Back, Next, Month, Week, Day)
+  .rbc-toolbar {
+    font-size: 0.8125rem;
+    margin-bottom: 6px;
+    gap: 6px;
+
+    .rbc-toolbar-label {
+      padding: 0 6px;
+      font-size: 0.875rem;
+    }
+
+    button {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+    }
+
+    .rbc-btn-group + .rbc-btn-group,
+    .rbc-btn-group + button {
+      margin-left: 6px;
+    }
+  }
+
+  // Week/day view: align header cells with column width (same flex and min-width as day slots)
+  .rbc-time-view {
+    .rbc-time-header-content {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    // Same flex and min-width so header and columns stay aligned
+    .rbc-time-header .rbc-row .rbc-header,
+    .rbc-time-content .rbc-day-slot,
+    .rbc-row-content .rbc-row .rbc-day-slot {
+      flex: 1 1 0;
+      min-width: 80px;
+      width: 0;
+      box-sizing: border-box;
+    }
+  }
+
+  // Let the calendar root scroll when month view is wider than viewport
+  .rbc-calendar.calendar-card {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  // Month view on mobile: min column width so grid can scroll
+  .rbc-month-view {
+    min-width: 504px;
+
+    .rbc-month-header,
+    .rbc-month-row,
+    .rbc-row-bg,
+    .rbc-row-content {
+      grid-template-columns: repeat(7, minmax(72px, 1fr));
+    }
+
+    // Smaller font on mobile only
+    .rbc-date-cell {
+      font-size: 0.65rem;
+    }
+
+    .rbc-row-segment .rbc-event-content,
+    .rbc-show-more {
+      font-size: 0.6rem;
+    }
+  }
+}
