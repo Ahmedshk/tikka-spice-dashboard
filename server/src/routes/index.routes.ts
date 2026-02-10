@@ -11,7 +11,8 @@ if (process.env.NODE_ENV === 'production') {
   router.use(express.static(clientDistPath));
 
   // SPA fallback: serve index.html for all non-API routes
-  router.get('*', (req: Request, res: Response) => {
+  // Express 5 / path-to-regexp requires a named wildcard (e.g. *path), not bare *
+  router.get('*path', (req: Request, res: Response) => {
     // Don't serve index.html for API routes
     if (req.path.startsWith('/api')) {
       res.status(404).json({
