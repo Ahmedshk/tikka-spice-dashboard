@@ -20,6 +20,8 @@ const config: Config = {
         positive: "#5DC54F",
         /** Negative trend / unfavorable (e.g. negative %) */
         negative: "#F04B5B",
+        /** Pending trend / incomplete (e.g. pending/over due %) */
+        pending: "#FDB90E",
       },
     },
   },

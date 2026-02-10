@@ -5,6 +5,14 @@ import path from 'node:path';
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react(), svgr()],
+    css: {
+        preprocessorOptions: {
+            scss: {
+                // Silence deprecations from our @import and from react-big-calendar (node_modules)
+                silenceDeprecations: ['import', 'global-builtin', 'color-functions'],
+            },
+        },
+    },
     resolve: {
         alias: {
             '@assets': path.resolve(__dirname, './src/assets'),

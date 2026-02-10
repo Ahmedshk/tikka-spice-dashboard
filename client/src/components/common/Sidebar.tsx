@@ -96,9 +96,10 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
     };
   }, [isDragging, mouseStartX, isOpen, isMobile, onClose, onToggle]);
 
-  // Check if parent itself is active (not just a child)
-  const isParentActive = (path?: string) => {
-    return path !== undefined && activePath === path;
+  // Check if parent is active: either its path matches or any child path matches
+  const isParentActive = (item: (typeof navigationConfig)[0]) => {
+    if (item.path !== undefined && activePath === item.path) return true;
+    return !!item.children?.some((child) => child.path === activePath);
   };
 
   const handleParentClick = (item: { label: string; children?: Array<{ path: string }> }) => {
@@ -364,7 +365,7 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                         onClick={() => handleParentClick(item)}
                         className={`
                           w-full flex items-center justify-between px-4 py-3 cursor-pointer transition-all text-left border-0 rounded-xl
-                          ${isParentActive(item.path)
+                          ${isParentActive(item)
                             ? 'bg-button-secondary'
                             : 'bg-transparent hover:bg-gray-50'
                           }
@@ -502,7 +503,7 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                     className={`
                       w-full flex items-center rounded-xl border-0 cursor-pointer transition-all text-left
                       ${isDesktopExpanded ? 'justify-between px-4 py-3 my-4' : 'justify-center p-3 my-1'}
-                      ${isParentActive(item.path)
+                      ${isParentActive(item)
                         ? 'bg-button-secondary'
                         : 'bg-transparent hover:bg-gray-50'
                       }

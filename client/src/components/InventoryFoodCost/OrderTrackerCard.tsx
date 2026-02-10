@@ -35,10 +35,16 @@ export const OrderTrackerCard = ({ rows, className = '', onViewAll }: OrderTrack
                   <td className="py-3 pr-4">{row.supplier}</td>
                   <td className="py-3 pr-4 text-center">{row.date}</td>
                   <td className="py-3 pr-2 text-center">
-                    <span className="inline-flex items-center gap-1.5">
+                    <span
+                      className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 ${
+                        row.status === 'Received'
+                          ? 'bg-[rgba(93,197,79,0.2)]'
+                          : 'bg-[rgba(253,185,14,0.2)]'
+                      }`}
+                    >
                       <span
                         className="w-2 h-2 rounded-full shrink-0"
-                        style={{ backgroundColor: row.status === 'Received' ? '#22C55E' : '#F59E0B' }}
+                        style={{ backgroundColor: row.status === 'Received' ? '#5DC54F' : '#FBC52A' }}
                         aria-hidden
                       />
                       {row.status}

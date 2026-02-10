@@ -53,6 +53,7 @@ export const SourcesOfSalesChart = ({
     label: s.label,
     value: s.value,
     color: s.color,
+    amount: s.amount,
   }));
 
   return (
@@ -66,6 +67,12 @@ export const SourcesOfSalesChart = ({
               outerRadius: 90,
               paddingAngle: 2,
               highlightScope: { fade: 'global', highlight: 'item' },
+              valueFormatter: (item: { value: number; amount?: string }) => {
+                const percent = item.value;
+                const amount = item.amount;
+                if (amount !== undefined) return `${amount} (${percent}%)`;
+                return `${percent}%`;
+              },
             },
           ]}
           width={280}

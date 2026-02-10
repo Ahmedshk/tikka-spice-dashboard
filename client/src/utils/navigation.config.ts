@@ -41,9 +41,20 @@ export const navigationConfig: NavigationConfig = [
   },
   {
     label: 'Team & HR',
-    path: '/dashboard/team-hr',
     icon: TeamHrIcon,
     allowedRoles: Object.values(UserRole), // Placeholder: allow all roles
+    children: [
+      {
+        label: 'Training & Reviews',
+        path: '/dashboard/training-reviews',
+        allowedRoles: Object.values(UserRole), // Placeholder: allow all roles
+      },
+      {
+        label: 'Disciplinary Management',
+        path: '/dashboard/disciplinary-management',
+        allowedRoles: Object.values(UserRole), // Placeholder: allow all roles
+      },
+    ],
   },
   {
     label: 'Calendar & Events',

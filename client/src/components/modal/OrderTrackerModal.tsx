@@ -51,7 +51,7 @@ export const OrderTrackerModal = ({ isOpen, onClose, rows }: OrderTrackerModalPr
       aria-labelledby="order-tracker-modal-title"
       onClose={onClose}
     >
-      <div className="relative w-full max-w-2xl">
+      <div className="relative w-full min-w-0 max-w-full md:max-w-2xl">
         <button
           type="button"
           onClick={() => { dialogRef.current?.close(); onClose(); }}
@@ -66,9 +66,9 @@ export const OrderTrackerModal = ({ isOpen, onClose, rows }: OrderTrackerModalPr
               Order Tracker
             </h2>
           </div>
-          <div className="flex-1 min-h-0 flex flex-col px-5 pt-4 overflow-hidden border-x border-gray-200">
-            <div className="flex-1 min-h-0 overflow-y-auto overflow-x-auto md:[scrollbar-gutter:stable]">
-              <table className="w-full border-collapse text-[10px] md:text-xs 2xl:text-sm">
+          <div className="flex-1 min-h-0 min-w-0 flex flex-col px-5 pt-4 overflow-hidden border-x border-gray-200">
+            <div className="flex-1 min-h-0 min-w-0 overflow-y-auto overflow-x-auto md:[scrollbar-gutter:stable]">
+              <table className="w-full min-w-[360px] border-collapse text-[10px] md:text-xs 2xl:text-sm">
                 <thead>
                   <tr className="text-left text-secondary border-b border-gray-200">
                     <th className="pb-3 pr-4 pl-2 font-semibold">PO#</th>
@@ -84,10 +84,15 @@ export const OrderTrackerModal = ({ isOpen, onClose, rows }: OrderTrackerModalPr
                       <td className="py-3 pr-4">{row.supplier}</td>
                       <td className="py-3 pr-4 text-center">{row.date}</td>
                       <td className="py-3 pr-2 text-center">
-                        <span className="inline-flex items-center gap-1.5">
+                        <span
+                          className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 ${row.status === 'Received'
+                              ? 'bg-[rgba(34,197,94,0.2)]'
+                              : 'bg-[rgba(245,158,11,0.2)]'
+                            }`}
+                        >
                           <span
                             className="w-2 h-2 rounded-full shrink-0"
-                            style={{ backgroundColor: row.status === 'Received' ? '#22C55E' : '#F59E0B' }}
+                            style={{ backgroundColor: row.status === 'Received' ? '#5DC54F' : '#FBC52A' }}
                             aria-hidden
                           />
                           {row.status}

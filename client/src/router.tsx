@@ -5,7 +5,8 @@ import { CommandCenter } from './pages/dashboard/CommandCenter';
 import { SalesLaborDetails } from './pages/dashboard/SalesLaborDetails';
 import { SalesTrendReports } from './pages/dashboard/SalesTrendReports';
 import { InventoryFoodCost } from './pages/dashboard/InventoryFoodCost';
-import { TeamHR } from './pages/dashboard/TeamHR';
+import { TrainingReviews } from './pages/dashboard/TrainingReviews';
+import { DisciplinaryManagement } from './pages/dashboard/DisciplinaryManagement';
 import { CalendarEvents } from './pages/dashboard/CalendarEvents';
 import { UserManagement } from './pages/dashboard/UserManagement';
 import { GoalSetting } from './pages/dashboard/GoalSetting';
@@ -84,14 +85,30 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: '/dashboard/team-hr',
+    path: '/dashboard/training-reviews',
     element: (
       <ErrorBoundary>
         <ProtectedRoute>
-          <TeamHR />
+          <TrainingReviews />
         </ProtectedRoute>
       </ErrorBoundary>
     ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/dashboard/disciplinary-management',
+    element: (
+      <ErrorBoundary>
+        <ProtectedRoute>
+          <DisciplinaryManagement />
+        </ProtectedRoute>
+      </ErrorBoundary>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/dashboard/team-hr',
+    element: <Navigate to="/dashboard/training-reviews" replace />,
     errorElement: <ErrorPage />,
   },
   {
