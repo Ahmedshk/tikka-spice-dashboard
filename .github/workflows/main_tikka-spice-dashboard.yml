@@ -23,17 +23,29 @@ jobs:
         with:
           node-version: '24.x'
 
-      - name: npm install, build, and test
+      - name: Build client
         run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+          cd client
+          npm ci
+          npm run build
+
+      - name: Build server
+        run: |
+          cd server
+          npm ci
+          npm run build
+
+      - name: Prepare deployment artifact
+        run: |
+          mkdir -p deploy/client
+          cp -r server/node_modules server/package.json server/package-lock.json server/dist deploy/
+          cp -r client/dist deploy/client/
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: .
+          path: deploy
 
   deploy:
     runs-on: ubuntu-latest
