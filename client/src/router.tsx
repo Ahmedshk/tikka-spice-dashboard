@@ -10,6 +10,7 @@ import { DisciplinaryManagement } from './pages/dashboard/DisciplinaryManagement
 import { DisciplinaryManagementDetails } from './pages/dashboard/DisciplinaryManagementDetails';
 import { CalendarEvents } from './pages/dashboard/CalendarEvents';
 import { UserManagement } from './pages/dashboard/UserManagement';
+import { RBACManagement } from './pages/dashboard/RBACManagement';
 import { GoalSetting } from './pages/dashboard/GoalSetting';
 import { LocationManagement } from './pages/dashboard/LocationManagement';
 import { ErrorPage } from './pages/ErrorPage';
@@ -140,6 +141,17 @@ export const router = createBrowserRouter([
       <ErrorBoundary>
         <ProtectedRoute>
           <UserManagement />
+        </ProtectedRoute>
+      </ErrorBoundary>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/dashboard/rbac-management',
+    element: (
+      <ErrorBoundary>
+        <ProtectedRoute>
+          <RBACManagement />
         </ProtectedRoute>
       </ErrorBoundary>
     ),

@@ -74,6 +74,11 @@ export const navigationConfig: NavigationConfig = [
         allowedRoles: Object.values(UserRole), // Placeholder: allow all roles
       },
       {
+        label: 'RBAC Management',
+        path: '/dashboard/rbac-management',
+        allowedRoles: Object.values(UserRole), // Placeholder: allow all roles
+      },
+      {
         label: 'Goal Setting',
         path: '/dashboard/goal-setting',
         allowedRoles: Object.values(UserRole), // Placeholder: allow all roles

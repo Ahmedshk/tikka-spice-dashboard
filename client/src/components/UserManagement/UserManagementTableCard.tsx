@@ -69,7 +69,7 @@ export const UserManagementTableCard = ({
                       <span className="font-medium text-primary truncate" title={row.name}>{row.name}</span>
                     </div>
                   </td>
-                  <td className="w-[25%] px-4 lg:px-6 py-3 lg:py-4 text-secondary truncate text-center" title={row.email}>{row.email}</td>
+                  <td className="w-[25%] px-4 lg:px-6 py-3 lg:py-4 text-primary truncate text-center" title={row.email}>{row.email}</td>
                   <td className="w-[20%] px-4 lg:px-6 py-3 lg:py-4 truncate text-center" title={row.role}>{row.role}</td>
                   <td className="w-[15%] px-4 lg:px-6 py-3 lg:py-4 text-center">
                     <span className={statusPillClass[row.status]}>{row.status}</span>
