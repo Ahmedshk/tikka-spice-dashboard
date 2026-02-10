@@ -51,7 +51,11 @@ export const getLocationById = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { id } = req.params;
+    const id = req.params.id;
+    if (id === undefined || Array.isArray(id)) {
+      res.status(400).json({ success: false, message: 'Invalid location id' });
+      return;
+    }
     const location = await locationService.getById(id);
     if (!location) {
       res.status(404).json({
@@ -75,7 +79,11 @@ export const updateLocation = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { id } = req.params;
+    const id = req.params.id;
+    if (id === undefined || Array.isArray(id)) {
+      res.status(400).json({ success: false, message: 'Invalid location id' });
+      return;
+    }
     const { storeName, address, squareLocationId } = req.body;
     const location = await locationService.update(id, { storeName, address, squareLocationId });
     res.status(200).json({
@@ -94,7 +102,11 @@ export const deleteLocation = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { id } = req.params;
+    const id = req.params.id;
+    if (id === undefined || Array.isArray(id)) {
+      res.status(400).json({ success: false, message: 'Invalid location id' });
+      return;
+    }
     await locationService.delete(id);
     res.status(200).json({
       success: true,

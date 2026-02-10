@@ -22,11 +22,7 @@ export class GoalService {
   async getByLocationId(locationId: string): Promise<IGoal> {
     const doc = await this.goalRepository.findByLocationId(locationId);
     if (!doc) {
-      return {
-        _id: undefined,
-        locationId,
-        ...defaultGoals,
-      } as IGoal;
+      return { locationId, ...defaultGoals };
     }
     return this.toGoal(doc);
   }

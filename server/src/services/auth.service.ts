@@ -24,14 +24,15 @@ export class AuthService {
     accessToken: string;
     refreshToken: string;
   }> {
-    // Find user with password
+    // Find user with password (select('+password') returns document with password)
     const user = await this.userRepository.findByEmail(email, true);
     if (!user) {
       throw new UnauthorizedError("Invalid email or password");
     }
 
-    // Verify password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    // Verify password (user has password when found with includePassword: true)
+    const userWithPassword = user as typeof user & { password: string };
+    const isPasswordValid = await bcrypt.compare(password, userWithPassword.password);
     if (!isPasswordValid) {
       throw new UnauthorizedError("Invalid email or password");
     }
@@ -53,8 +54,8 @@ export class AuthService {
     const accessToken = generateAccessToken(tokenPayload);
     const refreshToken = generateRefreshToken(tokenPayload);
 
-    // Return user without password
-    const { password: _, ...userWithoutPassword } = user.toObject();
+    // Return user without password (toObject() already omits password per model)
+    const userWithoutPassword = user.toObject();
 
     return {
       user: userWithoutPassword,
@@ -83,7 +84,7 @@ export class AuthService {
     };
     const accessToken = generateAccessToken(tokenPayload);
     const refreshToken = generateRefreshToken(tokenPayload);
-    const { password: _, ...userWithoutPassword } = user.toObject();
+    const userWithoutPassword = user.toObject();
     return {
       user: userWithoutPassword,
       accessToken,

@@ -6,7 +6,7 @@ export const errorHandler = (
   err: Error | AppError,
   req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ): void => {
   // If it's an AppError, use its statusCode, otherwise default to 500
   const appError = err instanceof AppError ? err : new AppError(err.message || 'Internal server error', 500);
