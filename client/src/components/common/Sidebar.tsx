@@ -380,9 +380,9 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                         {(() => {
                           const isExpanded = expandedItems.has(item.label);
                           return isExpanded ? (
-                            <ArrowUpIcon className="w-3 h-3" />
+                            <ArrowUpIcon className="w-3 h-3 flex-shrink-0" />
                           ) : (
-                            <ArrowDownIcon className="w-3 h-3" />
+                            <ArrowDownIcon className="w-3 h-3 flex-shrink-0" />
                           );
                         })()}
                       </button>
@@ -509,21 +509,19 @@ const SidebarComponent = ({ activePath, expandedItems, onToggleExpand, isOpen, o
                       }
                     `}
                   >
-                    <div className="flex items-center min-w-0">
+                    <div className="flex items-center min-w-0 flex-1">
                       <item.icon className="w-5 h-5 flex-shrink-0" />
                       {isDesktopExpanded && (
-                        <>
-                          <span className="ml-3 flex-1 text-[10px] md:text-xs 2xl:text-sm text-primary font-medium truncate">
-                            {item.label}
-                          </span>
-                          {expandedItems.has(item.label) ? (
-                            <ArrowUpIcon className="w-3 h-3 flex-shrink-0" />
-                          ) : (
-                            <ArrowDownIcon className="w-3 h-3 flex-shrink-0" />
-                          )}
-                        </>
+                        <span className="ml-3 flex-1 min-w-0 truncate text-[10px] md:text-xs 2xl:text-sm text-primary font-medium">
+                          {item.label}
+                        </span>
                       )}
                     </div>
+                    {isDesktopExpanded && (expandedItems.has(item.label) ? (
+                      <ArrowUpIcon className="w-3 h-3 flex-shrink-0" />
+                    ) : (
+                      <ArrowDownIcon className="w-3 h-3 flex-shrink-0" />
+                    ))}
                   </button>
 
                   {isDesktopExpanded && expandedItems.has(item.label) && (
