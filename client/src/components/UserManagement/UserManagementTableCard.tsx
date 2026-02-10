@@ -33,7 +33,7 @@ export interface UserManagementTableCardProps {
 
 export const UserManagementTableCard = ({
   rows,
-  onAddUser,
+  onAddUser: _onAddUser,
   onEdit,
   onDelete,
   pagination,

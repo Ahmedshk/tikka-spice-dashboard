@@ -21,24 +21,6 @@ const ArrowRightIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-// Arrow Left Icon (points left when sidebar is open)
-const ArrowLeftIcon = ({ className }: { className?: string }) => (
-  <svg
-    className={className}
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M15 19l-7-7 7-7"
-    />
-  </svg>
-);
-
 export const SidebarToggle = ({ isOpen, onToggle }: SidebarToggleProps) => {
   // Only show toggle button when sidebar is closed (to open it)
   if (isOpen) {
