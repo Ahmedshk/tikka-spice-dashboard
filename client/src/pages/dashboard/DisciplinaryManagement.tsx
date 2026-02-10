@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Layout } from '../../components/common/Layout';
 import { CommandCenterKPICards } from '../../components/CommandCenter';
 import { DisciplinaryToolbar, DisciplinaryTableCard } from '../../components/DisciplinaryManagement';
@@ -33,6 +34,7 @@ const disciplinaryKPIs = [
 
 const mockRows: DisciplinaryRow[] = [
   {
+    id: 'alex-jonson',
     name: 'Alex Jonson',
     role: 'Store Manager',
     points90Day: 8,
@@ -41,6 +43,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'pending', count: 1 },
   },
   {
+    id: 'maria-garcia',
     name: 'Maria Garcia',
     role: 'Shift Supervisor',
     points90Day: 12,
@@ -49,6 +52,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'pending', count: 2 },
   },
   {
+    id: 'james-wilson',
     name: 'James Wilson',
     role: 'Cashier',
     points90Day: 3,
@@ -57,6 +61,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'compliant' },
   },
   {
+    id: 'sarah-chen',
     name: 'Sarah Chen',
     role: 'Cook',
     points90Day: 0,
@@ -65,6 +70,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'compliant' },
   },
   {
+    id: 'michael-brown',
     name: 'Michael Brown',
     role: 'Delivery Driver',
     points90Day: 6,
@@ -73,6 +79,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'pending', count: 3 },
   },
   {
+    id: 'emily-davis',
     name: 'Emily Davis',
     role: 'Cashier',
     points90Day: 11,
@@ -81,6 +88,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'compliant' },
   },
   {
+    id: 'david-martinez',
     name: 'David Martinez',
     role: 'Shift Supervisor',
     points90Day: 4,
@@ -89,6 +97,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'pending', count: 1 },
   },
   {
+    id: 'jennifer-lee',
     name: 'Jennifer Lee',
     role: 'Store Manager',
     points90Day: 2,
@@ -97,6 +106,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'compliant' },
   },
   {
+    id: 'robert-taylor',
     name: 'Robert Taylor',
     role: 'Cook',
     points90Day: 9,
@@ -105,6 +115,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'pending', count: 2 },
   },
   {
+    id: 'amanda-white',
     name: 'Amanda White',
     role: 'Cashier',
     points90Day: 0,
@@ -113,6 +124,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'compliant' },
   },
   {
+    id: 'christopher-harris',
     name: 'Christopher Harris',
     role: 'Delivery Driver',
     points90Day: 13,
@@ -121,6 +133,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'pending', count: 1 },
   },
   {
+    id: 'jessica-clark',
     name: 'Jessica Clark',
     role: 'Shift Supervisor',
     points90Day: 5,
@@ -129,6 +142,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'compliant' },
   },
   {
+    id: 'daniel-lewis',
     name: 'Daniel Lewis',
     role: 'Cashier',
     points90Day: 7,
@@ -137,6 +151,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'pending', count: 3 },
   },
   {
+    id: 'ashley-robinson',
     name: 'Ashley Robinson',
     role: 'Cook',
     points90Day: 1,
@@ -145,6 +160,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'compliant' },
   },
   {
+    id: 'matthew-walker',
     name: 'Matthew Walker',
     role: 'Store Manager',
     points90Day: 10,
@@ -153,6 +169,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'pending', count: 2 },
   },
   {
+    id: 'stephanie-hall',
     name: 'Stephanie Hall',
     role: 'Cashier',
     points90Day: 3,
@@ -161,6 +178,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'compliant' },
   },
   {
+    id: 'andrew-young',
     name: 'Andrew Young',
     role: 'Delivery Driver',
     points90Day: 6,
@@ -169,6 +187,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'pending', count: 1 },
   },
   {
+    id: 'nicole-king',
     name: 'Nicole King',
     role: 'Shift Supervisor',
     points90Day: 14,
@@ -177,6 +196,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'compliant' },
   },
   {
+    id: 'kevin-wright',
     name: 'Kevin Wright',
     role: 'Cook',
     points90Day: 0,
@@ -185,6 +205,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'compliant' },
   },
   {
+    id: 'rachel-scott',
     name: 'Rachel Scott',
     role: 'Cashier',
     points90Day: 8,
@@ -193,6 +214,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'pending', count: 2 },
   },
   {
+    id: 'brandon-green',
     name: 'Brandon Green',
     role: 'Delivery Driver',
     points90Day: 11,
@@ -201,6 +223,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'pending', count: 1 },
   },
   {
+    id: 'lauren-adams',
     name: 'Lauren Adams',
     role: 'Shift Supervisor',
     points90Day: 4,
@@ -209,6 +232,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'compliant' },
   },
   {
+    id: 'ryan-nelson',
     name: 'Ryan Nelson',
     role: 'Cook',
     points90Day: 15,
@@ -217,6 +241,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'pending', count: 3 },
   },
   {
+    id: 'megan-hill',
     name: 'Megan Hill',
     role: 'Cashier',
     points90Day: 2,
@@ -225,6 +250,7 @@ const mockRows: DisciplinaryRow[] = [
     eSignStatus: { type: 'compliant' },
   },
   {
+    id: 'justin-baker',
     name: 'Justin Baker',
     role: 'Store Manager',
     points90Day: 5,
@@ -235,6 +261,7 @@ const mockRows: DisciplinaryRow[] = [
 ];
 
 export const DisciplinaryManagement = () => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
 
@@ -283,7 +310,9 @@ export const DisciplinaryManagement = () => {
         <DisciplinaryTableCard
           rows={paginatedRows}
           onView={(row) => {
-            console.log('View', row);
+            if (row.id) {
+              navigate(`/dashboard/disciplinary-management/${row.id}`);
+            }
           }}
           pagination={{
             currentPage: page,

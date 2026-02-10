@@ -7,6 +7,7 @@ import { SalesTrendReports } from './pages/dashboard/SalesTrendReports';
 import { InventoryFoodCost } from './pages/dashboard/InventoryFoodCost';
 import { TrainingReviews } from './pages/dashboard/TrainingReviews';
 import { DisciplinaryManagement } from './pages/dashboard/DisciplinaryManagement';
+import { DisciplinaryManagementDetails } from './pages/dashboard/DisciplinaryManagementDetails';
 import { CalendarEvents } from './pages/dashboard/CalendarEvents';
 import { UserManagement } from './pages/dashboard/UserManagement';
 import { GoalSetting } from './pages/dashboard/GoalSetting';
@@ -101,6 +102,17 @@ export const router = createBrowserRouter([
       <ErrorBoundary>
         <ProtectedRoute>
           <DisciplinaryManagement />
+        </ProtectedRoute>
+      </ErrorBoundary>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/dashboard/disciplinary-management/:employeeId',
+    element: (
+      <ErrorBoundary>
+        <ProtectedRoute>
+          <DisciplinaryManagementDetails />
         </ProtectedRoute>
       </ErrorBoundary>
     ),
