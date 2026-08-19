@@ -26,8 +26,9 @@ import {
   normalizeHomebaseEmployee,
   buildHomebaseSyncUpdatePayload,
   buildHomebaseSyncCreatePayload,
+  getHomebaseSyncReviewCycleActions,
 } from "../utils/syncFromHomebaseHelpers.js";
-import { ReviewCycleModel } from "../models/reviewCycle.model.js";
+import { completeOpenReviewCyclesForEmployee } from "../utils/completeOpenReviewCycles.util.js";
 import { ReviewCycleService } from "./reviewCycle.service.js";
 import { logger } from "../utils/logger.util.js";
 import {
@@ -709,15 +710,10 @@ export class UserService {
           updatePayload,
         );
         result.updated++;
-        const reviewCycleService = new ReviewCycleService();
-        await reviewCycleService
-          .startCycleForUser(existing._id.toString())
-          .catch((err) => {
-            logger.warn(
-              "Review cycle start after Homebase update failed",
-              { userId: existing._id.toString(), err },
-            );
-          });
+        await this.applyHomebaseSyncReviewCycleSideEffects(
+          existing._id.toString(),
+          updatePayload.isTerminated === true,
+        );
         return;
       }
 
@@ -797,12 +793,26 @@ export class UserService {
     const doc = await this.userRepository.updateById(id, { isTerminated: true });
     if (!doc) return null;
 
-    const TERMINAL_STATUSES = ["cycle_complete", "checkin_60_complete", "checkin_60_done"];
-    await ReviewCycleModel.updateMany(
-      { employeeId: id, status: { $nin: TERMINAL_STATUSES } },
-      { $set: { status: "cycle_complete" as const } },
-    );
+    await completeOpenReviewCyclesForEmployee(id);
 
     return toIUser(doc);
+  }
+
+  private async applyHomebaseSyncReviewCycleSideEffects(
+    userId: string,
+    isTerminated: boolean,
+  ): Promise<void> {
+    const actions = getHomebaseSyncReviewCycleActions(isTerminated);
+    if (actions.completeOpenCycles) {
+      await completeOpenReviewCyclesForEmployee(userId);
+    }
+    if (!actions.startCycle) return;
+    const reviewCycleService = new ReviewCycleService();
+    await reviewCycleService.startCycleForUser(userId).catch((err) => {
+      logger.warn("Review cycle start after Homebase update failed", {
+        userId,
+        err,
+      });
+    });
   }
 }

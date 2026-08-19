@@ -34,6 +34,12 @@ function jobWithoutPin(job: HomebaseEmployeeJob | null | undefined): HomebaseJob
   };
 }
 
+function isTerminatedFromArchivedAt(
+  archivedAt: string | null | undefined,
+): boolean {
+  return archivedAt != null && archivedAt !== "";
+}
+
 function parseDate(s: string | null | undefined): Date | undefined {
   if (s == null || typeof s !== "string" || !s.trim()) return undefined;
   const d = new Date(s);
@@ -79,13 +85,10 @@ export function buildHomebaseSyncUpdatePayload(
       updated_at: normalized.homebaseData.updated_at ?? null,
     },
   };
-  if (normalized.phone !== undefined && normalized.phone !== "") {
-    payload.phone = normalized.phone;
-  }
-  const archivedAt = normalized.homebaseData.job?.archived_at;
-  if (archivedAt != null && archivedAt !== "") {
-    payload.isTerminated = true;
-  }
+  payload.phone = normalized.phone ?? "";
+  payload.isTerminated = isTerminatedFromArchivedAt(
+    normalized.homebaseData.job?.archived_at,
+  );
   if (normalized.homebaseData.created_at != null) {
     payload.startDate = normalized.homebaseData.created_at;
   }
@@ -97,8 +100,9 @@ export function buildHomebaseSyncCreatePayload(
   normalized: NormalizedHomebaseEmployee,
   hashedPassword: string,
 ): Omit<IUser, "_id" | "createdAt" | "updatedAt"> {
-  const archivedAt = normalized.homebaseData.job?.archived_at;
-  const isTerminated = archivedAt != null && archivedAt !== "";
+  const isTerminated = isTerminatedFromArchivedAt(
+    normalized.homebaseData.job?.archived_at,
+  );
   return {
     email: normalized.email,
     password: hashedPassword,
@@ -122,4 +126,14 @@ export function buildHomebaseSyncCreatePayload(
 
 interface UserDocumentLike {
   phone?: string;
+}
+
+export function getHomebaseSyncReviewCycleActions(isTerminated: boolean): {
+  completeOpenCycles: boolean;
+  startCycle: boolean;
+} {
+  if (isTerminated) {
+    return { completeOpenCycles: true, startCycle: false };
+  }
+  return { completeOpenCycles: false, startCycle: true };
 }
