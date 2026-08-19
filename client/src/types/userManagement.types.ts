@@ -18,6 +18,7 @@ export interface HomebaseJob {
 export interface HomebaseData {
   id: string;
   job?: HomebaseJob | null;
+  jobs?: HomebaseJob[] | null;
   created_at?: string | null;
   updated_at?: string | null;
 }

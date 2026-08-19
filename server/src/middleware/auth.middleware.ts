@@ -34,13 +34,10 @@ export const authenticate = async (
     const decoded = verifyAccessToken(token);
     const user = await userRepository.findById(decoded.userId);
 
-    // Block archived Homebase employees from using the system
-    const archivedAt = (user as unknown as { homebaseData?: { job?: { archived_at?: string | null } } })
-      ?.homebaseData?.job?.archived_at;
-    if (archivedAt != null && archivedAt !== '') {
+    if (user?.isTerminated === true) {
       res.status(403).json({
         success: false,
-        message: 'Your account has been archived. Please contact an administrator.',
+        message: 'Your account has been terminated. Please contact an administrator.',
       });
       return;
     }

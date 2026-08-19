@@ -92,12 +92,9 @@ export class AuthService {
       );
     }
 
-    // Block archived Homebase employees
-    const archivedAt = (user as unknown as { homebaseData?: { job?: { archived_at?: string | null } } })
-      .homebaseData?.job?.archived_at;
-    if (archivedAt != null && archivedAt !== "") {
+    if (user.isTerminated === true) {
       throw new UnauthorizedError(
-        "Your account has been archived. Please contact an administrator."
+        "Your account has been terminated. Please contact an administrator."
       );
     }
 
@@ -205,6 +202,9 @@ export class AuthService {
     }
     if (!user.isActive) {
       throw new UnauthorizedError("Your account has been deactivated.");
+    }
+    if (user.isTerminated === true) {
+      throw new UnauthorizedError("Your account has been terminated.");
     }
     let effectiveRoleName: string | null = null;
     if (user.roleId) {

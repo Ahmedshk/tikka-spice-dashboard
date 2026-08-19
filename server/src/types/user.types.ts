@@ -28,7 +28,10 @@ export interface HomebaseJob {
 /** All Homebase-sourced fields stored in one object to avoid clashing with existing user fields. */
 export interface HomebaseData {
   id: string;
+  /** Display job: preferred active (non-archived) job across locations. */
   job?: HomebaseJob | null;
+  /** All known Homebase jobs for this employee, one per location. */
+  jobs?: HomebaseJob[] | null;
   created_at?: Date | null;
   updated_at?: Date | null;
 }
@@ -44,7 +47,7 @@ export interface IUser {
   /** Reference to Role document; when set, permissions are resolved from Role. */
   roleId?: string | null;
   isActive: boolean;
-  /** True when the employee has been terminated (manually or via Homebase archived_at). */
+  /** True when the employee has been terminated (manually, or archived at every Homebase location). */
   isTerminated?: boolean;
   /** Employment start date; used for review cycle reference. Falls back to homebaseData.created_at or createdAt. */
   startDate?: Date | null;

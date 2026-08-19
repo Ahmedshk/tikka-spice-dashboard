@@ -17,6 +17,14 @@ export interface NormalizedHomebaseEmployee {
   };
 }
 
+interface UserDocumentLike {
+  phone?: string;
+  homebaseData?: {
+    job?: HomebaseJob | null;
+    jobs?: HomebaseJob[] | null;
+  } | null;
+}
+
 /** Copy job fields from API response excluding pin. */
 function jobWithoutPin(job: HomebaseEmployeeJob | null | undefined): HomebaseJob | undefined {
   if (!job) return undefined;
@@ -34,10 +42,68 @@ function jobWithoutPin(job: HomebaseEmployeeJob | null | undefined): HomebaseJob
   };
 }
 
-function isTerminatedFromArchivedAt(
-  archivedAt: string | null | undefined,
-): boolean {
+function isHomebaseJobArchived(job: HomebaseJob | null | undefined): boolean {
+  const archivedAt = job?.archived_at;
   return archivedAt != null && archivedAt !== "";
+}
+
+function jobsMatch(a: HomebaseJob, b: HomebaseJob): boolean {
+  if (a.id === b.id) return true;
+  const locA = a.location_uuid?.trim();
+  const locB = b.location_uuid?.trim();
+  return Boolean(locA && locB && locA === locB);
+}
+
+function existingJobsFromUser(existing: UserDocumentLike): HomebaseJob[] {
+  const fromJobs = (existing.homebaseData?.jobs ?? []).filter(
+    (j): j is HomebaseJob => j != null,
+  );
+  if (fromJobs.length > 0) return fromJobs;
+  const legacy = existing.homebaseData?.job;
+  return legacy != null ? [legacy] : [];
+}
+
+function mergeHomebaseJobs(
+  existingJobs: HomebaseJob[],
+  incoming: HomebaseJob | undefined,
+): HomebaseJob[] {
+  if (!incoming) return [...existingJobs];
+  const jobs = [...existingJobs];
+  const idx = jobs.findIndex((j) => jobsMatch(j, incoming));
+  if (idx >= 0) {
+    jobs[idx] = incoming;
+    return jobs;
+  }
+  jobs.push(incoming);
+  return jobs;
+}
+
+function pickDisplayHomebaseJob(
+  jobs: HomebaseJob[],
+  incoming: HomebaseJob | undefined,
+): HomebaseJob | null {
+  if (incoming && !isHomebaseJobArchived(incoming)) return incoming;
+  const active = jobs.find((j) => !isHomebaseJobArchived(j));
+  return active ?? incoming ?? jobs[0] ?? null;
+}
+
+function isTerminatedFromHomebaseJobs(jobs: HomebaseJob[]): boolean {
+  if (jobs.length === 0) return false;
+  return jobs.every(isHomebaseJobArchived);
+}
+
+function buildSyncedHomebaseData(
+  normalized: NormalizedHomebaseEmployee,
+  existingJobs: HomebaseJob[],
+): NonNullable<IUser["homebaseData"]> {
+  const jobs = mergeHomebaseJobs(existingJobs, normalized.homebaseData.job);
+  return {
+    id: normalized.homebaseData.id,
+    job: pickDisplayHomebaseJob(jobs, normalized.homebaseData.job),
+    jobs,
+    created_at: normalized.homebaseData.created_at ?? null,
+    updated_at: normalized.homebaseData.updated_at ?? null,
+  };
 }
 
 function parseDate(s: string | null | undefined): Date | undefined {
@@ -73,22 +139,19 @@ export function normalizeHomebaseEmployee(
 /** Build Partial<IUser> for updateById from normalized Homebase employee and existing user. */
 export function buildHomebaseSyncUpdatePayload(
   normalized: NormalizedHomebaseEmployee,
-  _existing: UserDocumentLike,
+  existing: UserDocumentLike,
 ): Partial<IUser> {
+  const homebaseData = buildSyncedHomebaseData(
+    normalized,
+    existingJobsFromUser(existing),
+  );
   const payload: Partial<IUser> = {
     firstName: normalized.firstName,
     lastName: normalized.lastName,
-    homebaseData: {
-      id: normalized.homebaseData.id,
-      job: normalized.homebaseData.job ?? null,
-      created_at: normalized.homebaseData.created_at ?? null,
-      updated_at: normalized.homebaseData.updated_at ?? null,
-    },
+    homebaseData,
   };
   payload.phone = normalized.phone ?? "";
-  payload.isTerminated = isTerminatedFromArchivedAt(
-    normalized.homebaseData.job?.archived_at,
-  );
+  payload.isTerminated = isTerminatedFromHomebaseJobs(homebaseData.jobs ?? []);
   if (normalized.homebaseData.created_at != null) {
     payload.startDate = normalized.homebaseData.created_at;
   }
@@ -100,9 +163,7 @@ export function buildHomebaseSyncCreatePayload(
   normalized: NormalizedHomebaseEmployee,
   hashedPassword: string,
 ): Omit<IUser, "_id" | "createdAt" | "updatedAt"> {
-  const isTerminated = isTerminatedFromArchivedAt(
-    normalized.homebaseData.job?.archived_at,
-  );
+  const homebaseData = buildSyncedHomebaseData(normalized, []);
   return {
     email: normalized.email,
     password: hashedPassword,
@@ -111,21 +172,12 @@ export function buildHomebaseSyncCreatePayload(
     role: null,
     roleId: null,
     isActive: true,
-    isTerminated,
+    isTerminated: isTerminatedFromHomebaseJobs(homebaseData.jobs ?? []),
     status: "pending",
     ...(normalized.phone && { phone: normalized.phone }),
     ...(normalized.homebaseData.created_at != null && { startDate: normalized.homebaseData.created_at }),
-    homebaseData: {
-      id: normalized.homebaseData.id,
-      job: normalized.homebaseData.job ?? null,
-      created_at: normalized.homebaseData.created_at ?? null,
-      updated_at: normalized.homebaseData.updated_at ?? null,
-    },
+    homebaseData,
   };
-}
-
-interface UserDocumentLike {
-  phone?: string;
 }
 
 export function getHomebaseSyncReviewCycleActions(isTerminated: boolean): {
