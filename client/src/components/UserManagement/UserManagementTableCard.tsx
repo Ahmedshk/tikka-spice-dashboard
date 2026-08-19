@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import type { UserRow, UserStatus } from '../../types/userManagement.types';
 import { isOwnerRole } from '../../utils/userManagementTableHelpers';
 import { Pagination } from '../common/Pagination';
+import { PortalMenu } from '../common/PortalMenu';
 import EditIcon from '@assets/icons/edit.svg?react';
 import { FaPaperPlane } from 'react-icons/fa';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -85,16 +86,7 @@ function RowActionsMenu({
   compact?: boolean;
 }>) {
   const [open, setOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const handler = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, [open]);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   const btnSize = compact ? 'p-1.5' : 'p-2.5';
   const iconSize = compact
@@ -133,8 +125,9 @@ function RowActionsMenu({
         <EditIcon className={iconSize} />
       </button>
       {showOverflowMenu && (
-        <div className="relative" ref={menuRef}>
+        <div>
           <button
+            ref={triggerRef}
             type="button"
             onClick={() => setOpen((prev) => !prev)}
             className={`${btnSize} text-primary hover:bg-gray-200 rounded transition-colors`}
@@ -145,28 +138,32 @@ function RowActionsMenu({
           >
             <BsThreeDotsVertical className={iconSize} />
           </button>
-          {open && (
-            <div className="absolute right-0 top-full mt-1 z-50 min-w-[10rem] bg-white rounded-lg shadow-lg border border-gray-200 py-1">
-              {showStartReview && (
-                <button
-                  type="button"
-                  onClick={() => { setOpen(false); onStartReviewCycle?.(row); }}
-                  className="w-full text-left px-4 py-2 text-sm text-primary hover:bg-gray-50 transition-colors"
-                >
-                  Start review cycle
-                </button>
-              )}
-              {showTerminate && (
-                <button
-                  type="button"
-                  onClick={() => { setOpen(false); onTerminate?.(row); }}
-                  className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-                >
-                  Terminate
-                </button>
-              )}
-            </div>
-          )}
+          <PortalMenu
+            open={open}
+            onClose={() => setOpen(false)}
+            triggerRef={triggerRef}
+            align="right"
+            className="min-w-[10rem] bg-white rounded-lg shadow-lg border border-gray-200 py-1"
+          >
+            {showStartReview && (
+              <button
+                type="button"
+                onClick={() => { setOpen(false); onStartReviewCycle?.(row); }}
+                className="w-full text-left px-4 py-2 text-sm text-primary hover:bg-gray-50 transition-colors"
+              >
+                Start review cycle
+              </button>
+            )}
+            {showTerminate && (
+              <button
+                type="button"
+                onClick={() => { setOpen(false); onTerminate?.(row); }}
+                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+              >
+                Terminate
+              </button>
+            )}
+          </PortalMenu>
         </div>
       )}
     </div>
